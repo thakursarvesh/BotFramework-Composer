@@ -54,6 +54,12 @@ class LocalPublisher implements PublishPlugin<PublishConfig> {
     const version = 'default';
 
     this.composer.log('Starting publish');
+    console.log("Local Publish: ");
+    console.log(project.dataDir);
+    console.log(this.getBotAssetsDir(botId));
+    console.log(this.getBotRuntimeDir(botId));
+    console.log(this.getDownloadPath(botId, version))
+
 
     // if enableCustomRuntime is not true, initialize the runtime code in a tmp folder
     // and export the content into that folder as well.

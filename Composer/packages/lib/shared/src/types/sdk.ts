@@ -189,7 +189,13 @@ export interface RegexRecognizer extends BaseSchema {
   intents: IntentPattern[];
 }
 
-export type MicrosoftIRecognizer = LuisRecognizer | RegexRecognizer | string;
+export interface OrchestratorRecognizer extends BaseSchema {
+  applicationId: string;
+  endpoint: string;
+  endpointKey: string;
+}
+
+export type MicrosoftIRecognizer = OrchestratorRecognizer | LuisRecognizer | RegexRecognizer | string;
 
 /**
  * Rules

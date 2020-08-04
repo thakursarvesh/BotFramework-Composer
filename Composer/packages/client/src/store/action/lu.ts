@@ -72,11 +72,15 @@ export const publishLuis: ActionCreator = async ({ dispatch, getState }, authori
     const referred = luUtil.checkLuisPublish(luFiles, dialogs);
     //TODO crosstrain should add locale
     const crossTrainConfig = luUtil.createCrossTrainConfig(dialogs, referred);
+
+    const rootDialogId = dialogs.filter((d) => d.isRoot).map((d) => d.id);
+
     const response = await httpClient.post(`/projects/${projectId}/luFiles/publish`, {
       authoringKey,
       projectId,
       crossTrainConfig,
       luFiles: referred.map((file) => file.id),
+      rootDialogId: rootDialogId,
     });
     luFileStatusStorage.publishAll(getState().projectId);
     dispatch({

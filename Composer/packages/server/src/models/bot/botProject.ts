@@ -305,6 +305,29 @@ export class BotProject {
     }
   };
 
+  public createOrchestratorSnapshot = async (
+    authoringKey: string,
+    fileIds: string[] = [],
+    crossTrainConfig: ICrossTrainConfig,
+    rootDialogId: string
+  ) => {
+    if (fileIds.length && this.settings) {
+      const map = fileIds.reduce((result, id) => {
+        result[id] = true;
+        return result;
+      }, {});
+
+      const files = this.files.filter((file) => map[Path.basename(file.name, '.lu')]);
+
+      this.luPublisher.setPublishConfig(
+        { ...this.settings.luis, authoringKey },
+        crossTrainConfig,
+        this.settings.downsampling
+      );
+      await this.luPublisher.publishOrchestrator(files, rootDialogId);
+    }
+  };
+
   public cloneFiles = async (locationRef: LocationRef): Promise<LocationRef> => {
     // get destination storage client
     const dstStorage = StorageService.getStorageClient(locationRef.storageId);

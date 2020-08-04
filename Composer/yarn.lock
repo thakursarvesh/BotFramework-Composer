@@ -4408,6 +4408,13 @@ app-builder-lib@22.6.0:
     semver "^7.3.2"
     temp-file "^3.3.7"
 
+append-transform@^2.0.0:
+  version "2.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/append-transform/-/append-transform-2.0.0.tgz#99d9d29c7b38391e6f428d28ce136551f0b77e12"
+  integrity sha1-mdnSnHs4OR5vQo0ozhNlUfC3fhI=
+  dependencies:
+    default-require-extensions "^3.0.0"
+
 applicationinsights@^1.0.8:
   version "1.6.0"
   resolved "https://botbuilder.myget.org/F/botbuilder-declarative/npm/applicationinsights/-/applicationinsights-1.6.0.tgz#8d46717b1c3db0f3c8a2e7bdbe32857a51207c0a"
@@ -4458,6 +4465,11 @@ archiver@^3.0.0:
     readable-stream "^2.0.0"
     tar-stream "^1.5.0"
     zip-stream "^2.0.1"
+
+archy@^1.0.0:
+  version "1.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/archy/-/archy-1.0.0.tgz#f9c8c13757cc1dd7bc379ac77b2c62a5c2868c40"
+  integrity sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
@@ -5123,6 +5135,13 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
+bindings@^1.2.1, bindings@^1.5.0:
+  version "1.5.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
+  integrity sha1-EDU8npRTNLwFEabZCzj7x8nFBN8=
+  dependencies:
+    file-uri-to-path "1.0.0"
+
 bl@^1.0.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.2.tgz#a160911717103c07410cef63ef51b397c025af9c"
@@ -5602,6 +5621,16 @@ cachedir@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/cachedir/-/cachedir-2.3.0.tgz#0c75892a052198f0b21c7c1804d8331edfcae0e8"
   integrity sha512-A+Fezp4zxnit6FanDmv9EqXNAi3vt9DWp51/71UEhXukb7QUuvtv9344h91dyAxuTLoSYJFU299qzR3tzwPAhw==
+
+caching-transform@^4.0.0:
+  version "4.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/caching-transform/-/caching-transform-4.0.0.tgz#00d297a4206d71e2163c39eaffa8157ac0651f0f"
+  integrity sha1-ANKXpCBtceIWPDnq/6gVesBlHw8=
+  dependencies:
+    hasha "^5.0.0"
+    make-dir "^3.0.0"
+    package-hash "^4.0.0"
+    write-file-atomic "^3.0.0"
 
 call-me-maybe@^1.0.1:
   version "1.0.1"
@@ -7635,6 +7664,13 @@ default-gateway@^4.2.0:
     execa "^1.0.0"
     ip-regex "^2.1.0"
 
+default-require-extensions@^3.0.0:
+  version "3.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/default-require-extensions/-/default-require-extensions-3.0.0.tgz#e03f93aac9b2b6443fc52e5e4a37b3ad9ad8df96"
+  integrity sha1-4D+TqsmytkQ/xS5eSjezrZrY35Y=
+  dependencies:
+    strip-bom "^4.0.0"
+
 default-shell@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/default-shell/-/default-shell-1.0.1.tgz#752304bddc6174f49eb29cb988feea0b8813c8bc"
@@ -8257,7 +8293,7 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-es6-error@^4.1.1:
+es6-error@^4.0.1, es6-error@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/es6-error/-/es6-error-4.1.1.tgz#9e3af407459deed47e9a91f9b885a84eb05c561d"
   integrity sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg==
@@ -9004,6 +9040,11 @@ file-loader@4.2.0:
     loader-utils "^1.2.3"
     schema-utils "^2.0.0"
 
+file-uri-to-path@1.0.0:
+  version "1.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
+  integrity sha1-VTp7hEb/b2hDWcRF8eN6BdrMM90=
+
 filelist@^1.0.1:
   version "1.0.1"
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/filelist/-/filelist-1.0.1.tgz#f10d1a3ae86c1694808e8f20906f43d4c9132dbb"
@@ -9077,7 +9118,7 @@ find-cache-dir@^2.0.0, find-cache-dir@^2.1.0:
     make-dir "^2.0.0"
     pkg-dir "^3.0.0"
 
-find-cache-dir@^3.3.1:
+find-cache-dir@^3.2.0, find-cache-dir@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-3.3.1.tgz#89b33fad4a4670daa94f855f7fbe31d6d84fe880"
   integrity sha512-t2GDMt3oGC/v+BMwzmllWDuJF/xcDtE5j/fCGbqDD7OLuJkj0cfh1YSA5VKPvwMeLFLNDBkwOKZ2X85jGLVftQ==
@@ -9206,6 +9247,14 @@ for-own@^0.1.3:
   dependencies:
     for-in "^1.0.1"
 
+foreground-child@^2.0.0:
+  version "2.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/foreground-child/-/foreground-child-2.0.0.tgz#71b32800c9f15aa8f2f83f4a6bd9bff35d861a53"
+  integrity sha1-cbMoAMnxWqjy+D9Ka9m/812GGlM=
+  dependencies:
+    cross-spawn "^7.0.0"
+    signal-exit "^3.0.2"
+
 forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
@@ -9309,6 +9358,11 @@ from2@^2.1.0, from2@^2.1.1:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
+
+fromentries@^1.2.0:
+  version "1.2.1"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/fromentries/-/fromentries-1.2.1.tgz#64c31665630479bc993cd800d53387920dc61b4d"
+  integrity sha1-ZMMWZWMEebyZPNgA1TOHkg3GG00=
 
 fs-constants@^1.0.0:
   version "1.0.0"
@@ -9470,6 +9524,11 @@ get-own-enumerable-property-symbols@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-3.0.0.tgz#b877b49a5c16aefac3655f2ed2ea5b684df8d203"
   integrity sha512-CIJYJC4GGF06TakLg8z4GQKvDsx9EMspVxOYih7LerEL/WosUnFIww45CGfxfeKHqlg3twgUrYRT1O3WQqjGCg==
+
+get-package-type@^0.1.0:
+  version "0.1.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/get-package-type/-/get-package-type-0.1.0.tgz#8de2d803cff44df3bc6c456e6668b36c3926e11a"
+  integrity sha1-jeLYA8/0TfO8bEVuZmizbDkm4Ro=
 
 get-port@^5.1.1:
   version "5.1.1"
@@ -9993,6 +10052,14 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
+
+hasha@^5.0.0:
+  version "5.2.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/hasha/-/hasha-5.2.0.tgz#33094d1f69c40a4a6ac7be53d5fe3ff95a269e0c"
+  integrity sha1-MwlNH2nECkpqx75T1f4/+Vomngw=
+  dependencies:
+    is-stream "^2.0.0"
+    type-fest "^0.8.0"
 
 hast-util-from-parse5@^5.0.0:
   version "5.0.0"
@@ -11017,10 +11084,17 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-istanbul-lib-coverage@^3.0.0:
+istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.0.0-alpha.1:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.0.0.tgz#f5944a37c70b550b02a78a5c3b2055b280cec8ec"
   integrity sha512-UiUIqxMgRDET6eR+o5HbfRYP1l0hqkWOs7vNxC/mggutCMUIhWMm8gAHb8tHlyfD3/l6rlgNA5cKdDzEAf6hEg==
+
+istanbul-lib-hook@^3.0.0:
+  version "3.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/istanbul-lib-hook/-/istanbul-lib-hook-3.0.0.tgz#8f84c9434888cc6b1d0a9d7092a76d239ebf0cc6"
+  integrity sha1-j4TJQ0iIzGsdCp1wkqdtI56/DMY=
+  dependencies:
+    append-transform "^2.0.0"
 
 istanbul-lib-instrument@^4.0.0:
   version "4.0.1"
@@ -11034,6 +11108,19 @@ istanbul-lib-instrument@^4.0.0:
     "@istanbuljs/schema" "^0.1.2"
     istanbul-lib-coverage "^3.0.0"
     semver "^6.3.0"
+
+istanbul-lib-processinfo@^2.0.2:
+  version "2.0.2"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/istanbul-lib-processinfo/-/istanbul-lib-processinfo-2.0.2.tgz#e1426514662244b2f25df728e8fd1ba35fe53b9c"
+  integrity sha1-4UJlFGYiRLLyXfco6P0bo1/lO5w=
+  dependencies:
+    archy "^1.0.0"
+    cross-spawn "^7.0.0"
+    istanbul-lib-coverage "^3.0.0-alpha.1"
+    make-dir "^3.0.0"
+    p-map "^3.0.0"
+    rimraf "^3.0.0"
+    uuid "^3.3.3"
 
 istanbul-lib-report@^3.0.0:
   version "3.0.0"
@@ -12097,6 +12184,11 @@ lodash.flatten@^4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
   integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
 
+lodash.flattendeep@^4.4.0:
+  version "4.4.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
+  integrity sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=
+
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://botbuilder.myget.org/F/botbuilder-declarative/npm/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
@@ -12685,6 +12777,14 @@ minipass@^2.2.1, minipass@^2.3.4:
     safe-buffer "^5.1.2"
     yallist "^3.0.0"
 
+minipass@^2.8.6, minipass@^2.9.0:
+  version "2.9.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/minipass/-/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6"
+  integrity sha1-5xN2Ln0+Mv7YAxFc+T4EvKn8yaY=
+  dependencies:
+    safe-buffer "^5.1.2"
+    yallist "^3.0.0"
+
 minipass@^3.0.0, minipass@^3.1.1:
   version "3.1.1"
   resolved "https://botbuilder.myget.org/F/botbuilder-declarative/npm/minipass/-/minipass-3.1.1.tgz#7607ce778472a185ad6d89082aa2070f79cedcd5"
@@ -12698,6 +12798,13 @@ minizlib@^1.1.1:
   integrity sha512-7+4oTUOWKg7AuL3vloEWekXY2/D20cevzsrNT2kGWm+39J9hGTCBv8VI5Pm5lXZ/o3/mdR4f8rflAPhnQb8mPA==
   dependencies:
     minipass "^2.2.1"
+
+minizlib@^1.2.1:
+  version "1.3.3"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/minizlib/-/minizlib-1.3.3.tgz#2290de96818a34c29551c8a8d301216bd65a861d"
+  integrity sha1-IpDeloGKNMKVUcio0wEha9Zahh0=
+  dependencies:
+    minipass "^2.9.0"
 
 mississippi@^3.0.0:
   version "3.0.0"
@@ -12899,6 +13006,15 @@ needle@^2.2.1:
     iconv-lite "^0.4.4"
     sax "^1.2.4"
 
+needle@^2.5.0:
+  version "2.5.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/needle/-/needle-2.5.0.tgz#e6fc4b3cc6c25caed7554bd613a5cf0bac8c31c0"
+  integrity sha1-5vxLPMbCXK7XVUvWE6XPC6yMMcA=
+  dependencies:
+    debug "^3.2.6"
+    iconv-lite "^0.4.4"
+    sax "^1.2.4"
+
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
@@ -12925,6 +13041,11 @@ no-case@^2.2.0:
   integrity sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
   dependencies:
     lower-case "^1.1.1"
+
+node-addon-api@^3.0.0:
+  version "3.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/node-addon-api/-/node-addon-api-3.0.0.tgz#812446a1001a54f71663bed188314bba07e09247"
+  integrity sha1-gSRGoQAaVPcWY77RiDFLugfgkkc=
 
 node-fetch@^1.0.1:
   version "1.7.3"
@@ -13010,6 +13131,29 @@ node-pre-gyp@^0.12.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+node-pre-gyp@^0.15.0:
+  version "0.15.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/node-pre-gyp/-/node-pre-gyp-0.15.0.tgz#c2fc383276b74c7ffa842925241553e8b40f1087"
+  integrity sha1-wvw4Mna3TH/6hCklJBVT6LQPEIc=
+  dependencies:
+    detect-libc "^1.0.2"
+    mkdirp "^0.5.3"
+    needle "^2.5.0"
+    nopt "^4.0.1"
+    npm-packlist "^1.1.6"
+    npmlog "^4.0.2"
+    rc "^1.2.7"
+    rimraf "^2.6.1"
+    semver "^5.3.0"
+    tar "^4.4.2"
+
+node-preload@^0.2.1:
+  version "0.2.1"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/node-preload/-/node-preload-0.2.1.tgz#c03043bb327f417a18fee7ab7ee57b408a144301"
+  integrity sha1-wDBDuzJ/QXoY/uerfuV7QIoUQwE=
+  dependencies:
+    process-on-spawn "^1.0.0"
 
 node-releases@^1.1.3, node-releases@^1.1.40:
   version "1.1.41"
@@ -13201,6 +13345,39 @@ nwsapi@^2.2.0:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.0.tgz#204879a9e3d068ff2a55139c2c772780681a38b7"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
 
+nyc@^15.0.1:
+  version "15.1.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/nyc/-/nyc-15.1.0.tgz#1335dae12ddc87b6e249d5a1994ca4bdaea75f02"
+  integrity sha1-EzXa4S3ch7biSdWhmUykva6nXwI=
+  dependencies:
+    "@istanbuljs/load-nyc-config" "^1.0.0"
+    "@istanbuljs/schema" "^0.1.2"
+    caching-transform "^4.0.0"
+    convert-source-map "^1.7.0"
+    decamelize "^1.2.0"
+    find-cache-dir "^3.2.0"
+    find-up "^4.1.0"
+    foreground-child "^2.0.0"
+    get-package-type "^0.1.0"
+    glob "^7.1.6"
+    istanbul-lib-coverage "^3.0.0"
+    istanbul-lib-hook "^3.0.0"
+    istanbul-lib-instrument "^4.0.0"
+    istanbul-lib-processinfo "^2.0.2"
+    istanbul-lib-report "^3.0.0"
+    istanbul-lib-source-maps "^4.0.0"
+    istanbul-reports "^3.0.2"
+    make-dir "^3.0.0"
+    node-preload "^0.2.1"
+    p-map "^3.0.0"
+    process-on-spawn "^1.0.0"
+    resolve-from "^5.0.0"
+    rimraf "^3.0.0"
+    signal-exit "^3.0.2"
+    spawn-wrap "^2.0.0"
+    test-exclude "^6.0.0"
+    yargs "^15.0.2"
+
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
@@ -13316,6 +13493,16 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+oc_node_authoring@0.1.9:
+  version "0.1.9"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/oc_node_authoring/-/oc_node_authoring-0.1.9.tgz#21402bd41f9bdd34d8507a68f2d7a956aaf442bb"
+  integrity sha1-IUAr1B+b3TTYUHpo8tepVqr0Qrs=
+  dependencies:
+    bindings "^1.2.1"
+    node-addon-api "^3.0.0"
+    node-pre-gyp "^0.15.0"
+    nyc "^15.0.1"
 
 office-ui-fabric-react@^7.105.2, office-ui-fabric-react@^7.88.1:
   version "7.105.2"
@@ -13608,6 +13795,16 @@ p-try@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.1.0.tgz#c1a0f1030e97de018bb2c718929d2af59463e505"
   integrity sha512-H2RyIJ7+A3rjkwKC2l5GGtU4H1vkxKCAGsWasNVd0Set+6i4znxbWy6/j16YDPJDWxhsgZiKAstMEP8wCdSpjA==
+
+package-hash@^4.0.0:
+  version "4.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/package-hash/-/package-hash-4.0.0.tgz#3537f654665ec3cc38827387fc904c163c54f506"
+  integrity sha1-NTf2VGZew8w4gnOH/JBMFjxU9QY=
+  dependencies:
+    graceful-fs "^4.1.15"
+    hasha "^5.0.0"
+    lodash.flattendeep "^4.4.0"
+    release-zalgo "^1.0.0"
 
 package-json@^5.0.0:
   version "5.0.0"
@@ -14775,6 +14972,13 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
   integrity sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
 
+process-on-spawn@^1.0.0:
+  version "1.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/process-on-spawn/-/process-on-spawn-1.0.0.tgz#95b05a23073d30a17acfdc92a440efd2baefdc93"
+  integrity sha1-lbBaIwc9MKF6z9ySpEDv0rrv3JM=
+  dependencies:
+    fromentries "^1.2.0"
+
 process@^0.11.1, process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
@@ -15519,6 +15723,13 @@ relateurl@0.2.x, relateurl@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
+
+release-zalgo@^1.0.0:
+  version "1.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/release-zalgo/-/release-zalgo-1.0.0.tgz#09700b7e5074329739330e535c5a90fb67851730"
+  integrity sha1-CXALflB0Mpc5Mw5TXFqQ+2eFFzA=
+  dependencies:
+    es6-error "^4.0.1"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
@@ -16481,6 +16692,18 @@ spawn-command@^0.0.2-1:
   resolved "https://registry.yarnpkg.com/spawn-command/-/spawn-command-0.0.2-1.tgz#62f5e9466981c1b796dc5929937e11c9c6921bd0"
   integrity sha1-YvXpRmmBwbeW3Fkpk34RycaSG9A=
 
+spawn-wrap@^2.0.0:
+  version "2.0.0"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/spawn-wrap/-/spawn-wrap-2.0.0.tgz#103685b8b8f9b79771318827aa78650a610d457e"
+  integrity sha1-EDaFuLj5t5dxMYgnqnhlCmENRX4=
+  dependencies:
+    foreground-child "^2.0.0"
+    is-windows "^1.0.2"
+    make-dir "^3.0.0"
+    rimraf "^3.0.0"
+    signal-exit "^3.0.2"
+    which "^2.0.1"
+
 spdx-correct@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-3.1.0.tgz#fb83e504445268f154b074e218c87c003cd31df4"
@@ -17092,6 +17315,19 @@ tar@^4:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+tar@^4.4.2:
+  version "4.4.13"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
+  integrity sha1-Q7NkvFKIjVVSmGN7ENYHkCVKtSU=
+  dependencies:
+    chownr "^1.1.1"
+    fs-minipass "^1.2.5"
+    minipass "^2.8.6"
+    minizlib "^1.2.1"
+    mkdirp "^0.5.0"
+    safe-buffer "^5.1.2"
+    yallist "^3.0.3"
 
 temp-file@^3.3.7:
   version "3.3.7"
@@ -18755,6 +18991,11 @@ yallist@^3.0.0, yallist@^3.0.2:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.3.tgz#b4b049e314be545e3ce802236d6cd22cd91c3de9"
   integrity sha512-S+Zk8DEWE6oKpV+vI3qWkaK+jSbIK86pCwe2IF/xwIpQ8jEuxpw9NyaGjmp9+BoJv5FV2piqCDcoCtStppiq2A==
 
+yallist@^3.0.3:
+  version "3.1.1"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
+  integrity sha1-27fa+b/YusmrRev2ArjLrQ1dCP0=
+
 yallist@^4.0.0:
   version "4.0.0"
   resolved "https://botbuilder.myget.org/F/botbuilder-declarative/npm/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
@@ -18776,7 +19017,7 @@ yargs-parser@^13.1.0, yargs-parser@^13.1.2:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^18.1.1:
+yargs-parser@^18.1.1, yargs-parser@^18.1.2:
   version "18.1.3"
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/yargs-parser/-/yargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
   integrity sha1-vmjEl1xrKr9GkjawyHA2L6sJp7A=
@@ -18859,6 +19100,23 @@ yargs@^13.2.4, yargs@^13.3.2:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^13.1.2"
+
+yargs@^15.0.2:
+  version "15.4.1"
+  resolved "https://fuselabs.pkgs.visualstudio.com/Orchestrator/_packaging/Microsoft.Orchestrator/npm/registry/yargs/-/yargs-15.4.1.tgz#0d87a16de01aee9d8bec2bfbf74f67851730f4f8"
+  integrity sha1-DYehbeAa7p2L7Cv7909nhRcw9Pg=
+  dependencies:
+    cliui "^6.0.0"
+    decamelize "^1.2.0"
+    find-up "^4.1.0"
+    get-caller-file "^2.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^2.0.0"
+    set-blocking "^2.0.0"
+    string-width "^4.2.0"
+    which-module "^2.0.0"
+    y18n "^4.0.0"
+    yargs-parser "^18.1.2"
 
 yargs@^15.3.1:
   version "15.3.1"

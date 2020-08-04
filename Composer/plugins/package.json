@@ -10,15 +10,17 @@
       "azurePublish",
       "samples",
       "localPublish",
+      "orchestratorVA",
       "lib",
       "lib/*"
     ],
     "scripts": {
-      "build:all": "yarn build:lib && yarn build:localpublish && yarn build:samples && yarn build:azurePublish && yarn build:azureFunctionsPublish",
+      "build:all": "yarn build:lib && yarn build:localpublish && yarn build:samples && yarn build:azurePublish && yarn build:azureFunctionsPublish && yarn build:orchestratorVA",
       "build:localpublish": "yarn workspace localpublish build",
       "build:samples": "yarn workspace samples build",
       "build:azurePublish": "yarn workspace azurePublish build",
       "build:azureFunctionsPublish": "yarn workspace azureFunctionsPublish build",
+      "build:orchestratorVA": "yarn workspace orchestratorVA build",
       "build:lib": "yarn workspace @bfc/plugins-libs build:all"
     }
   }

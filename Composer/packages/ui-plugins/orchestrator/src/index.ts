@@ -9,11 +9,11 @@ import { LuisIntentEditor } from './LuisIntentEditor';
 const config: PluginConfig = {
   recognizers: [
     {
-      id: SDKKinds.LuisRecognizer,
-      displayName: 'LUIS',
+      id: SDKKinds.OrchestratorRecognizer,
+      displayName: 'Orchestrator',
       editor: LuisIntentEditor,
       isSelected: (data) => {
-        return typeof data === 'string' && data.search(/-[0-9]+/) == -1 && data.endsWith('.lu');
+        return typeof data === 'string' && data.endsWith('.lu') && data.search(/-[0-9]+/) > -1;
       },
       handleRecognizerChange: (props, shellData) => {
         const { luFiles, currentDialog, locale } = shellData;

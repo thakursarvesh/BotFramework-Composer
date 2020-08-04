@@ -1,0 +1,13 @@
+{
+  "name": "orchestratorVA",
+  "version": "1.0.0",
+  "description": "Orchestrator with VA integration",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "extendsComposer": true,
+  "dependencies": {
+  }
+}

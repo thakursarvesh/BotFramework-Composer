@@ -63,6 +63,7 @@ export enum SDKKinds {
   LanguagePolicy = 'Microsoft.LanguagePolicy',
   LogAction = 'Microsoft.LogAction',
   LuisRecognizer = 'Microsoft.LuisRecognizer',
+  OrchestratorRecognizer = 'Microsoft.OrchestratorRecognizer',
   MentionEntityRecognizer = 'Microsoft.MentionEntityRecognizer',
   MostSpecificSelector = 'Microsoft.MostSpecificSelector',
   MultiLanguageRecognizer = 'Microsoft.MultiLanguageRecognizer',

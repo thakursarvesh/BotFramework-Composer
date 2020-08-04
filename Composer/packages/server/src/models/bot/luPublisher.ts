@@ -80,6 +80,117 @@ export class LuPublisher {
     }
   };
 
+  public publishOrchestrator = async (files: FileInfo[], rootDialogId: string) => {
+    try {
+      await this.createGeneratedDir();
+
+      //do cross train before publish
+      await this.crossTrain(files);
+
+      await this.runBuild(files, rootDialogId);
+
+      //remove the cross train result
+      await this.cleanCrossTrain();
+
+      // create the orchestrator snapshot
+      const config = await this._getConfig(files);
+      if (config.models.length === 0) {
+        throw new Error('No LUIS files exist');
+      }
+
+      const loadResult = await this._loadLuContents(config.models);
+      loadResult.luContents = await this.downsizeUtterances(loadResult.luContents);
+
+      //reload luis object
+      const downSampledLuisObj = await LuisBuilder.fromLUAsync(loadResult.luContents);
+
+      //pass this obj through Tien's utterance extractor, and ready up for snapshot.
+      const labelUtteranceMap: { [label: string]: string } = {};
+      this.getIntentsUtterances(downSampledLuisObj, '', labelUtteranceMap);
+
+      //transform one more time into example format for orchestrator
+      interface Example {
+        text: string;
+        label: string;
+      }
+      let labelTextArr: Example[] = [];
+
+      for (let [txt, lbl] of Object.entries(labelUtteranceMap)) {
+        labelTextArr.push({ text: txt, label: lbl[0] });
+      }
+
+      console.log('beginning the loadup');
+      // Return boolean, separate load.
+      const oc = require('bindings')('oc_node_authoring');
+      const orchestrator = new oc.Orchestrator();
+      const load_result = await orchestrator.load('../orchestratormodel');
+      console.log('model loaded');
+
+      const labeler = orchestrator.createLabelResolver();
+
+      if (load_result === false) {
+        console.log('Loading NLR failed!!');
+      }
+
+      labelTextArr.forEach((x) => {
+        console.log('Adding example: ' + x.text);
+        labeler.addExample(x);
+      });
+      var snapshot = labeler.createSnapshot();
+      console.log('Snapshot created');
+
+      const fs = require('fs');
+      await fs.writeFile(Path.join(this.generatedFolderPath, 'rootDialog.blu'), snapshot, (err) => {
+        if (err) throw err;
+        console.log('file saved');
+      });
+    } catch (error) {
+      throw new Error(error.message ?? error.text ?? 'Error publishing to LUIS.');
+    }
+  };
+
+  private getIntentsUtterances(luisObject: any, hierarchicalLabel: string, utterancesLabelsMap: any) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (luisObject.hasOwnProperty('utterances')) {
+      luisObject.utterances.forEach((e: any) => {
+        const label: string = e.intent.trim();
+        const utterance: string = e.text.trim();
+
+        this.addNewLabelUtterance(utterance, label, hierarchicalLabel, utterancesLabelsMap);
+      });
+    }
+  }
+
+  private addNewLabelUtterance(utterance: string, label: string, hierarchicalLabel: string, utterancesLabelsMap: any) {
+    const existingLabels: string[] = utterancesLabelsMap[utterance];
+    if (existingLabels) {
+      if (hierarchicalLabel && hierarchicalLabel.length > 0) {
+        this.addUniqueLabel(hierarchicalLabel, existingLabels);
+      } else {
+        this.addUniqueLabel(label, existingLabels);
+      }
+      utterancesLabelsMap[utterance] = existingLabels;
+    } else if (hierarchicalLabel && hierarchicalLabel.length > 0) {
+      utterancesLabelsMap[utterance] = [hierarchicalLabel];
+    } else {
+      utterancesLabelsMap[utterance] = [label];
+    }
+  }
+
+  private addUniqueLabel(newLabel: string, labels: string[]) {
+    let labelExists: boolean = false;
+    for (const label of labels) {
+      if (label === newLabel) {
+        labelExists = true;
+        break;
+      }
+    }
+
+    if (!labelExists) {
+      labels.push(newLabel);
+    }
+  }
+
   public setPublishConfig(
     luisConfig: ILuisConfig,
     crossTrainConfig: ICrossTrainConfig,
@@ -157,11 +268,34 @@ export class LuPublisher {
     }
   }
 
-  private async runBuild(files: FileInfo[]) {
+  private replaceRoot(buildResult: any, rootDialogId: string | undefined): void {
+    if (!rootDialogId) return buildResult;
+
+    console.log('Attempting to replace root with Orchestrator: ' + rootDialogId);
+
+    buildResult.map((b) => {
+      if (b.id.startsWith(rootDialogId) && b.id.endsWith('.lu.dialog')) {
+        let cont = JSON.parse(b.content);
+        if (cont['$kind'] != 'Microsoft.MultiLanguageRecognizer') {
+          cont['$kind'] = 'Microsoft.OrchestratorRecognizer';
+          cont['modelPath'] = './model';
+          cont['snapshotPath'] = '../../generated/rootDialog.blu';
+          b.content = JSON.stringify(cont);
+        }
+      }
+
+      return b;
+    });
+  }
+
+  private async runBuild(files: FileInfo[], rootDialogId?: string) {
     const config = await this._getConfig(files);
     if (config.models.length === 0) {
       throw new Error('No LUIS files exist');
     }
+
+    console.log('models:');
+    console.log(config.models);
 
     const loadResult = await this._loadLuContents(config.models);
     loadResult.luContents = await this.downsizeUtterances(loadResult.luContents);
@@ -179,6 +313,13 @@ export class LuPublisher {
       loadResult.multiRecognizers,
       loadResult.settings
     );
+    console.log(buildResult);
+
+    this.replaceRoot(buildResult, rootDialogId);
+
+    console.log('fixed');
+    console.log(buildResult);
+
     await this.builder.writeDialogAssets(buildResult, true, this.generatedFolderPath);
   }
 
