@@ -98,6 +98,13 @@ export class LuPublisher {
         throw new Error('No LUIS files exist');
       }
 
+      console.log('orchestrator confi');
+      console.log(config);
+      console.log(rootDialogId);
+
+      config.models = config.models.filter((x) => x.includes(rootDialogId + '.en-us.lu'));
+
+      console.log(config);
       const loadResult = await this._loadLuContents(config.models);
       loadResult.luContents = await this.downsizeUtterances(loadResult.luContents);
 
