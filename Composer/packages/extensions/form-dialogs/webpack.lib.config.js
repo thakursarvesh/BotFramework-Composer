@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -18,22 +17,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: 'react-dev-utils/eslintFormatter',
-              eslintPath: 'eslint',
-              quiet: true,
-            },
-            loader: 'eslint-loader',
-          },
-        ],
-        include: path.resolve(__dirname, 'src'),
-        exclude: path.resolve(__dirname, 'node_modules'),
-      },
-      {
         enforce: 'pre',
         test: /\.js$/,
         loader: 'source-map-loader',
@@ -43,7 +26,6 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         options: {
-          transpileOnly: true,
           configFile: path.join(__dirname, './tsconfig.lib.json'),
         },
         exclude: path.resolve(__dirname, 'node_modules'),
@@ -66,15 +48,12 @@ module.exports = {
   externals: {
     react: 'react',
     'react-dom': 'react-dom',
+    lodash: 'lodash',
   },
 
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].min.css',
-    }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false,
     }),
   ],
 

@@ -17,14 +17,15 @@
         "build:app": "rimraf dist && cross-env NODE_ENV=production BUILD_DEV=false webpack -p",
         "build": "rimraf lib && webpack --config webpack.lib.config.js --mode production",
         "lint": "eslint --quiet ./src",
-        "lint:fix": "yarn lint --fix"
+        "lint:fix": "yarn lint --fix",
+        "extract": "cross-env NODE_ENV=production format-message extract -g underscored_crc32 -o locales/en-US.json src/**/*.ts src/**/*.tsx"
     },
     "dependencies": {
-        "@fluentui/react": "^7.120.1",
+        "@fluentui/react": "^7.121.11",
         "@uifabric/experiments": "^7.27.6",
-        "mobx": "^5.15.4",
-        "mobx-react": "^6.2.2",
-        "mobx-state-tree": "^3.13.0",
+        "mobx": "^5.15.5",
+        "mobx-react": "^6.2.5",
+        "mobx-state-tree": "^3.17.2",
         "mst-middlewares": "^3.16.0",
         "react-beautiful-dnd": "^13.0.0",
         "react-virtualized-auto-sizer": "^1.0.2",
@@ -33,7 +34,8 @@
     "peerDependencies": {
         "react": "16.13.0",
         "react-dom": "16.13.0",
-        "lodash": "^4.17.15"
+        "lodash": "^4.17.19",
+        "format-message": "^6.2.3"
     },
     "devDependencies": {
         "@types/react": "^16.8.18",

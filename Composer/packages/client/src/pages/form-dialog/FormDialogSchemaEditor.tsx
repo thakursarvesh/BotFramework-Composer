@@ -12,7 +12,6 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 
 import { DropZone } from '../../components/DropZone';
-import { FileExtensions } from '../../store/persistence/types';
 
 const Root = styled(Stack)<{
   loading: boolean;
@@ -63,7 +62,7 @@ const editorTopBarStyles = classNamesFunction<IStackProps, IStackStyles>()({
   root: { backgroundColor: '#fff', height: '45px' },
 });
 
-const validateSchemaFileName = (file: File) => file.name.endsWith(FileExtensions.FormDialogSchema);
+const validateSchemaFileName = (file: File) => file.name.endsWith('FileExtensions.FormDialogSchema');
 
 type Props = {
   projectId?: string;
@@ -79,13 +78,15 @@ export const FormDialogSchemaEditor = React.memo((props: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = React.useRef<any>();
   const getEditorValueRef = React.useRef<() => string>(() => schema.content || JSON.stringify(defaultValue, null, 2));
-  const [jsonSchema, setJsonSchema] = React.useState(schema.content || JSON.stringify(defaultValue, null, 2));
+  const dialogSchemaContentRef = React.useRef(schema.content || JSON.stringify(defaultValue, null, 2));
 
   const [showEditor, setShowEditor] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string>('');
 
   React.useEffect(() => {
-    setJsonSchema(schema.content || JSON.stringify(defaultValue, null, 2));
+    if (showEditor) {
+      dialogSchemaContentRef.current = schema.content || JSON.stringify(defaultValue, null, 2);
+    }
     editorRef.current?.setValue(schema.content);
   }, [schema.content]);
 
@@ -93,13 +94,13 @@ export const FormDialogSchemaEditor = React.memo((props: Props) => {
   const onEditorDidMount = (getValue: () => string, editor: any) => {
     editorRef.current = editor;
     getEditorValueRef.current = getValue;
-    editorRef.current.setValue(jsonSchema);
+    editorRef.current.setValue(dialogSchemaContentRef.current);
   };
 
   const onSchemaUpdated = (id: string, content: string) => {
     onChange(id, content);
 
-    setJsonSchema(content);
+    dialogSchemaContentRef.current = content;
     editorRef.current?.setValue(content);
   };
 
@@ -129,6 +130,7 @@ export const FormDialogSchemaEditor = React.memo((props: Props) => {
             flex: 1,
             position: 'relative',
             overflowY: 'auto',
+            backgroundColor: showEditor ? '#fff' : 'transparent',
           },
         }}
       >
@@ -142,6 +144,7 @@ export const FormDialogSchemaEditor = React.memo((props: Props) => {
             <VisualSchemaEditor
               editorId={`${projectId}:${schema.id}`}
               schema={schema}
+              schemaExtension=".form-dialog"
               templates={templates}
               onSchemaUpdated={onSchemaUpdated}
             />

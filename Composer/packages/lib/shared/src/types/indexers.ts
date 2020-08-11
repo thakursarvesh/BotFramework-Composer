@@ -4,6 +4,18 @@
 import { Diagnostic } from './diagnostic';
 import { IIntentTrigger } from './dialogUtils';
 
+import { DialogSetting } from './index';
+
+export enum FileExtensions {
+  Dialog = '.dialog',
+  DialogSchema = '.schema',
+  Manifest = '.json',
+  Lu = '.lu',
+  Lg = '.lg',
+  Setting = 'appsettings.json',
+  FormDialogSchema = '.form-dialog',
+}
+
 export interface FileInfo {
   name: string;
   content: string;
@@ -24,6 +36,11 @@ export interface ReferredLuIntents {
   path: string;
 }
 
+export interface DialogSchemaFile {
+  id: string;
+  content: any;
+}
+
 export interface DialogInfo {
   content: any;
   diagnostics: Diagnostic[];
@@ -37,6 +54,7 @@ export interface DialogInfo {
   referredDialogs: string[];
   triggers: ITrigger[];
   intentTriggers: IIntentTrigger[];
+  skills: string[];
 }
 
 export interface LgTemplateJsonPath {
@@ -107,6 +125,7 @@ export interface LgFile {
   content: string;
   diagnostics: Diagnostic[];
   templates: LgTemplate[];
+  allTemplates: LgTemplate[];
   options?: string[];
 }
 
@@ -134,3 +153,37 @@ export interface SkillManifestInfo {
   lastModified: string;
   id: string;
 }
+
+export interface SkillManifest {
+  content: any;
+  id: string;
+  path?: string;
+  lastModified?: string;
+}
+
+export type BotAssets = {
+  projectId: string;
+  dialogs: DialogInfo[];
+  luFiles: LuFile[];
+  lgFiles: LgFile[];
+  skillManifests: SkillManifest[];
+  setting: DialogSetting;
+  dialogSchemas: DialogSchemaFile[];
+  formDialogSchemas: FormDialogSchema[];
+};
+
+export interface BotInfo {
+  assets: BotAssets;
+  diagnostics: Diagnostic[];
+  name: string;
+}
+
+export type FormDialogSchema = {
+  id: string;
+  content: string;
+};
+
+export type FormDialogSchemaTemplate = {
+  name: string;
+  isGlobal: boolean;
+};
