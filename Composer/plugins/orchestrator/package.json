@@ -1,0 +1,14 @@
+{
+  "name": "orchestrator",
+  "version": "1.0.0",
+  "description": "Orchestrator Wrapper around BF-Orchestrator package",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "extendsComposer": true,
+  "dependencies": {
+    "@microsoft/bf-orchestrator": "4.11.0-beta.20200818.8213b2a"
+  }
+}

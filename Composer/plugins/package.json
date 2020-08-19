@@ -10,19 +10,19 @@
       "azurePublish",
       "samples",
       "localPublish",
-      "orchestratorVA",
-	  "vacore",
+      "orchestrator",
+	    "vacore",
       "lib",
       "lib/*"
     ],
     "scripts": {
-      "build:all": "yarn build:lib && yarn build:localpublish && yarn build:samples && yarn build:azurePublish && yarn build:azureFunctionsPublish && yarn build:orchestratorVA && yarn build:vacore",
+      "build:all": "yarn build:lib && yarn build:localpublish && yarn build:samples && yarn build:azurePublish && yarn build:azureFunctionsPublish && yarn build:orchestrator && yarn build:vacore",
       "build:localpublish": "yarn workspace localpublish build",
       "build:samples": "yarn workspace samples build",
       "build:azurePublish": "yarn workspace azurePublish build",
       "build:azureFunctionsPublish": "yarn workspace azureFunctionsPublish build",
-      "build:orchestratorVA": "yarn workspace orchestratorVA build",
-	  "build:vacore": "yarn workspace vacore build",
+      "build:orchestrator": "yarn workspace orchestrator build",
+	    "build:vacore": "yarn workspace vacore build",
       "build:lib": "yarn workspace @bfc/plugins-libs build:all"
     }
   }
