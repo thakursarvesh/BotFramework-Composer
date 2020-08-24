@@ -9,7 +9,6 @@ import { Path } from '../../utility/path';
 import log from '../../logger';
 
 import { FileSettingManager } from './fileSettingManager';
-
 const debug = log.extend('default-settings-manager');
 
 export class DefaultSettingManager extends FileSettingManager {
@@ -68,6 +67,8 @@ export class DefaultSettingManager extends FileSettingManager {
         maxImbalanceRatio: 10,
         maxUtteranceAllowed: 15000,
       },
+      defaultLanguage: 'en-us',
+      languages: ['en-us'],
     };
   };
 

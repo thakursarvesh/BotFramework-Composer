@@ -4,12 +4,21 @@
 // TODO: Remove path module
 import Path from 'path';
 
-import React, { useEffect, useContext, useRef, Fragment } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import { RouteComponentProps, Router, navigate } from '@reach/router';
+import { useRecoilValue } from 'recoil';
 
 import { CreationFlowStatus } from '../../constants';
-import { StoreContext } from '../../store';
+import {
+  dispatcherState,
+  creationFlowStatusState,
+  projectIdState,
+  templateProjectsState,
+  storagesState,
+  focusedStorageFolderState,
+} from '../../recoilModel';
 import Home from '../../pages/home/Home';
+import { useProjectIdCache } from '../../utils/hooks';
 
 import { CreateOptions } from './CreateOptions';
 import { OpenProject } from './OpenProject';
@@ -18,21 +27,27 @@ import DefineConversation from './DefineConversation';
 type CreationFlowProps = RouteComponentProps<{}>;
 
 const CreationFlow: React.FC<CreationFlowProps> = () => {
-  const { state, actions } = useContext(StoreContext);
-  const { creationFlowStatus } = state;
   const {
     fetchTemplates,
     openBotProject,
     createProject,
     saveProjectAs,
-    saveTemplateId,
     fetchStorages,
     fetchFolderItemsByPath,
     setCreationFlowStatus,
     createFolder,
+    updateCurrentPathForStorage,
     updateFolder,
-  } = actions;
-  const { templateId, templateProjects, storages, focusedStorageFolder } = state;
+    saveTemplateId,
+    fetchProjectById,
+    fetchRecentProjects,
+  } = useRecoilValue(dispatcherState);
+  const creationFlowStatus = useRecoilValue(creationFlowStatusState);
+  const projectId = useRecoilValue(projectIdState);
+  const templateProjects = useRecoilValue(templateProjectsState);
+  const storages = useRecoilValue(storagesState);
+  const focusedStorageFolder = useRecoilValue(focusedStorageFolderState);
+  const cachedProjectId = useProjectIdCache();
   const currentStorageIndex = useRef(0);
   const storage = storages[currentStorageIndex.current];
   const currentStorageId = storage ? storage.id : 'default';
@@ -46,9 +61,19 @@ const CreationFlow: React.FC<CreationFlowProps> = () => {
     }
   }, [storages]);
 
-  useEffect(() => {
-    fetchStorages();
+  const fetchResources = async () => {
+    // fetchProject use `gotoSnapshot` which will wipe out all state value.
+    // so here make those methods call in sequence.
+    if (!projectId && cachedProjectId) {
+      await fetchProjectById(cachedProjectId);
+    }
+    await fetchStorages();
     fetchTemplates();
+    fetchRecentProjects();
+  };
+
+  useEffect(() => {
+    fetchResources();
   }, []);
 
   const updateCurrentPath = async (newPath, storageId) => {
@@ -57,7 +82,7 @@ const CreationFlow: React.FC<CreationFlowProps> = () => {
     }
     if (newPath) {
       const formattedPath = Path.normalize(newPath);
-      await actions.updateCurrentPath(formattedPath, storageId);
+      updateCurrentPathForStorage(formattedPath, storageId);
     }
   };
 
@@ -67,36 +92,33 @@ const CreationFlow: React.FC<CreationFlowProps> = () => {
   };
 
   const openBot = async (botFolder) => {
-    await openBotProject(botFolder);
     setCreationFlowStatus(CreationFlowStatus.CLOSE);
+    openBotProject(botFolder);
   };
 
-  const handleCreateNew = async (formData) => {
-    await createProject(templateId || '', formData.name, formData.description, formData.location, formData.schemaUrl);
+  const handleCreateNew = async (formData, templateId: string) => {
+    createProject(templateId || '', formData.name, formData.description, formData.location, formData.schemaUrl);
   };
 
-  const handleSaveAs = async (formData) => {
-    await saveProjectAs(state.projectId, formData.name, formData.description, formData.location);
+  const handleSaveAs = (formData) => {
+    saveProjectAs(projectId, formData.name, formData.description, formData.location);
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (formData, templateId: string) => {
     handleDismiss();
     switch (creationFlowStatus) {
-      case CreationFlowStatus.NEW_FROM_SCRATCH:
-      case CreationFlowStatus.NEW_FROM_TEMPLATE:
-        await handleCreateNew(formData);
-        break;
       case CreationFlowStatus.SAVEAS:
         handleSaveAs(formData);
         break;
 
       default:
-        await handleCreateNew(formData);
+        saveTemplateId(templateId);
+        handleCreateNew(formData, templateId);
     }
   };
 
   const handleCreateNext = async (data) => {
-    await setCreationFlowStatus(CreationFlowStatus.NEW_FROM_TEMPLATE);
+    setCreationFlowStatus(CreationFlowStatus.NEW_FROM_TEMPLATE);
     navigate(`./create/${data}`);
   };
 
@@ -108,7 +130,6 @@ const CreationFlow: React.FC<CreationFlowProps> = () => {
           createFolder={createFolder}
           focusedStorageFolder={focusedStorageFolder}
           path="create/:templateId"
-          saveTemplateId={saveTemplateId}
           updateFolder={updateFolder}
           onCurrentPathUpdate={updateCurrentPath}
           onDismiss={handleDismiss}
