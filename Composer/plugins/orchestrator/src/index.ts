@@ -54,7 +54,7 @@ async function buildOrchestratorSnapshot(req: Request, res: Response) {
   console.log("Model Folder for Orchestrator: " + nlrPath);
 
   try {
-    await Orchestrator.createAsync(nlrPath, LuFolder, GeneratedFolder);
+    await Orchestrator.createAsync(nlrPath, LuFolder, GeneratedFolder, true);
     res.status(200).json({ message: "Successfully Created Snapshot" });
   } catch (e) {
     res.status(400).json({ message: e });

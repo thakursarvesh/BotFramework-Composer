@@ -99,16 +99,19 @@ export class LuPublisher {
         throw new Error('No LUIS files exist');
       }
 
-      config.models = config.models.filter((x) => x.includes(rootDialogId + '.en-us.lu'));
+      //config.models = config.models.filter((x) => x.includes(rootDialogId + '.en-us.lu'));
 
       console.log(config);
       const nlrPath = Path.resolve('..', 'NLR');
+      const LUFolderPath = Path.resolve(this.dialogsDir, 'language-understanding');
+      console.log('Input LU Folder for Orchestrator: ' + LUFolderPath);
       console.log('Model Folder for Orchestrator: ' + nlrPath);
 
       await Orchestrator.createAsync(
         nlrPath,
         config.models[0],
-        Path.resolve(this.generatedFolderPath, 'rootDialog.blu')
+        Path.resolve(this.generatedFolderPath, 'rootDialog.blu'),
+        true
       );
     } catch (error) {
       throw new Error(error.message ?? error.text ?? 'Error publishing Orchestrator Snapshot.');

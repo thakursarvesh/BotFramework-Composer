@@ -344,7 +344,7 @@ async function publishOrchestrator(req: Request, res: Response) {
   if (currentProject !== undefined) {
     try {
       const luFiles = await currentProject.createOrchestratorSnapshot(
-        req.body.authoringKey,
+        req.body.luisConfig,
         req.body.luFiles,
         req.body.crossTrainConfig,
         req.body.rootDialogId

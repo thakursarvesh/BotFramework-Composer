@@ -408,25 +408,23 @@ export class BotProject implements IBotProject {
   };
 
   public createOrchestratorSnapshot = async (
-    authoringKey: string,
+    luisConfig: ILuisConfig,
     fileIds: string[] = [],
     crossTrainConfig: ICrossTrainConfig,
     rootDialogId: string
   ) => {
     if (fileIds.length && this.settings) {
-      const map = fileIds.reduce((result, id) => {
-        result[id] = true;
-        return result;
-      }, {});
+      const luFiles: FileInfo[] = [];
+      fileIds.forEach((id) => {
+        const f = this.files.get(`${id}.lu`);
+        if (f) {
+          luFiles.push(f);
+        }
+      });
 
-      const files = this.files.filter((file) => map[Path.basename(file.name, '.lu')]);
-
-      this.luPublisher.setPublishConfig(
-        { ...this.settings.luis, authoringKey },
-        crossTrainConfig,
-        this.settings.downsampling
-      );
-      await this.luPublisher.publishOrchestrator(files, rootDialogId);
+      this.luPublisher.setPublishConfig(luisConfig, crossTrainConfig, this.settings.downsampling);
+      //await this.luPublisher.publish(luFiles);
+      await this.luPublisher.publishOrchestrator(luFiles, rootDialogId);
     }
   };
 
