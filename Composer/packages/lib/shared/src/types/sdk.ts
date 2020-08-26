@@ -201,10 +201,10 @@ export interface CrossTrainedRecognizer extends BaseSchema {
 }
 
 export type MicrosoftIRecognizer =
+  | OrchestratorRecognizer
   | LuisRecognizer
   | RegexRecognizer
   | CrossTrainedRecognizer
-  | OrchestratorRecognizer
   | string;
 
 /**

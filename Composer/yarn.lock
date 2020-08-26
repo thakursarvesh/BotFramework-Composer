@@ -2990,30 +2990,6 @@
     semver "^5.5.1"
     tslib "^1.10.0"
 
-"@microsoft/bf-lu@next":
-  version "4.11.0-dev.20200824.de66343"
-  resolved "https://registry.yarnpkg.com/@microsoft/bf-lu/-/bf-lu-4.11.0-dev.20200824.de66343.tgz#a3ca8277967e201efa9045bc94a1412f411b948e"
-  integrity sha512-Rut+3IL3kqAJF+s9ryHzl+9ygPeN+9Va+PQ9cDryyLGuu/ipF0WXvTK1lYH95t2odgoukRZJ9MSkRAnIqbq/tw==
-  dependencies:
-    "@azure/cognitiveservices-luis-authoring" "4.0.0-preview.1"
-    "@azure/ms-rest-azure-js" "2.0.1"
-    "@oclif/command" "~1.5.19"
-    "@oclif/errors" "~1.2.2"
-    "@types/node-fetch" "~2.5.5"
-    antlr4 "^4.7.2"
-    chalk "2.4.1"
-    console-stream "^0.1.1"
-    deep-equal "^1.0.1"
-    delay "^4.3.0"
-    fs-extra "^8.1.0"
-    get-stdin "^6.0.0"
-    globby "^10.0.1"
-    intercept-stdout "^0.1.2"
-    lodash "^4.17.19"
-    node-fetch "~2.6.0"
-    semver "^5.5.1"
-    tslib "^1.10.0"
-
 "@microsoft/bf-orchestrator@4.11.0-beta.20200818.8213b2a":
   version "4.11.0-beta.20200818.8213b2a"
   resolved "https://registry.yarnpkg.com/@microsoft/bf-orchestrator/-/bf-orchestrator-4.11.0-beta.20200818.8213b2a.tgz#3938d20e3a788b8808442e364328dea0779607f2"
