@@ -195,7 +195,17 @@ export interface OrchestratorRecognizer extends BaseSchema {
   endpointKey: string;
 }
 
-export type MicrosoftIRecognizer = OrchestratorRecognizer | LuisRecognizer | RegexRecognizer | string;
+export interface CrossTrainedRecognizer extends BaseSchema {
+  /** Pattern->Intents mappings */
+  recognizers: string[];
+}
+
+export type MicrosoftIRecognizer =
+  | LuisRecognizer
+  | RegexRecognizer
+  | CrossTrainedRecognizer
+  | OrchestratorRecognizer
+  | string;
 
 /**
  * Rules

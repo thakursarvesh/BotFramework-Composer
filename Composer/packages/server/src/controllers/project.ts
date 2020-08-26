@@ -307,19 +307,15 @@ async function exportProject(req: Request, res: Response) {
   });
 }
 
-async function publishLuis(req: Request, res: Response) {
+async function setQnASettings(req: Request, res: Response) {
   const projectId = req.params.projectId;
   const user = await PluginLoader.getUserFromRequest(req);
 
   const currentProject = await BotProjectService.getProjectById(projectId, user);
   if (currentProject !== undefined) {
     try {
-      const luFiles = await currentProject.publishLuis(
-        req.body.luisConfig,
-        req.body.luFiles,
-        req.body.crossTrainConfig
-      );
-      res.status(200).json({ luFiles });
+      const qnaEndpointKey = await currentProject.updateQnaEndpointKey(req.body.subscriptionKey);
+      res.status(200).json(qnaEndpointKey);
     } catch (error) {
       res.status(400).json({
         message: error instanceof Error ? error.message : error,
@@ -332,24 +328,23 @@ async function publishLuis(req: Request, res: Response) {
   }
 }
 
-async function publishOrchestrator(req: Request, res: Response) {
-  //reworked for Orchestrator - tmp
-  //const oc = require('bindings')('oc_node_authoring');
-  //const orchestrator = new oc.Orchestrator();
-
+async function build(req: Request, res: Response) {
   const projectId = req.params.projectId;
   const user = await PluginLoader.getUserFromRequest(req);
 
   const currentProject = await BotProjectService.getProjectById(projectId, user);
   if (currentProject !== undefined) {
     try {
-      const luFiles = await currentProject.createOrchestratorSnapshot(
-        req.body.luisConfig,
-        req.body.luFiles,
-        req.body.crossTrainConfig,
-        req.body.rootDialogId
-      );
-      res.status(200).json({ luFiles });
+      const { luisConfig, qnaConfig, luFiles, qnaFiles, crossTrainConfig, rootDialogId } = req.body;
+      const files = await currentProject.buildFiles({
+        luisConfig,
+        qnaConfig,
+        luFileIds: luFiles,
+        qnaFileIds: qnaFiles,
+        crossTrainConfig,
+        rootDialogId,
+      });
+      res.status(200).json(files);
     } catch (error) {
       res.status(400).json({
         message: error instanceof Error ? error.message : error,
@@ -430,8 +425,8 @@ export const ProjectController = {
   removeFile,
   updateSkill,
   getSkill,
-  publishLuis,
-  publishOrchestrator,
+  build,
+  setQnASettings,
   exportProject,
   saveProjectAs,
   createProject,

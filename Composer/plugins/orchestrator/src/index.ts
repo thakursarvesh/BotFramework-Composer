@@ -19,6 +19,26 @@ interface context {
   luFiles: string[]
 }
 
+// async function replaceRoot(buildResult: any, rootDialogId: string | undefined): Promise<void> {
+//   if (!rootDialogId) return buildResult;
+
+//   console.log('Attempting to replace root with Orchestrator: ' + rootDialogId);
+
+//   buildResult.map((b) => {
+//     if (b.id.startsWith(rootDialogId) && b.id.endsWith('.lu.dialog')) {
+//       let cont = JSON.parse(b.content);
+//       if (cont['$kind'] != 'Microsoft.MultiLanguageRecognizer') {
+//         cont['$kind'] = 'Microsoft.OrchestratorRecognizer';
+//         cont['modelPath'] = './NLR';
+//         cont['snapshotPath'] = '../../generated/rootDialog.blu';
+//         b.content = JSON.stringify(cont);
+//       }
+//     }
+
+//     return b;
+//   });
+// }
+
 async function getProjectDetails(botId: string): Promise<any> {
   return new Promise((resolve, reject) => {
     let chunks: any = [];
