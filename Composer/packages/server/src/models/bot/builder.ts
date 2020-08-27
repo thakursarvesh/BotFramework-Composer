@@ -80,7 +80,7 @@ export class Builder {
       //do cross train before publish
       await this.crossTrain(luFiles, qnaFiles);
       const { interruptionLuFiles, interruptionQnaFiles } = await this.getInterruptionFiles();
-      await this.runLuBuild(interruptionLuFiles);
+      await this.runLuBuild(interruptionLuFiles, rootDialogId);
       await this.runQnaBuild(interruptionQnaFiles);
       await this.runOrchestratorBuild(luFiles);
 
@@ -112,7 +112,7 @@ export class Builder {
         nlrPath,
         LUFolderPath,
         Path.resolve(this.generatedFolderPath, 'rootDialog.blu'),
-        true
+        false
       );
     } catch (error) {
       throw new Error(error.message ?? error.text ?? 'Error publishing Orchestrator Snapshot.');
@@ -238,6 +238,9 @@ export class Builder {
 
   private async runLuBuild(files: FileInfo[], rootDialogId?: string) {
     const config = await this._getConfig(files, 'lu');
+    // if (config.models.length === 0) {
+    //   throw new Error('No LUIS files exist');
+    // }
 
     const loadResult = await this.luBuilder.loadContents(
       config.models,
@@ -249,6 +252,8 @@ export class Builder {
     const authoringEndpoint = config.authoringEndpoint ?? `https://${config.region}.api.cognitive.microsoft.com/`;
 
     console.log('Authoring Endpoint LUIS: ' + authoringEndpoint);
+    console.log(config);
+    console.log(loadResult);
 
     const buildResult = await this.luBuilder.build(
       loadResult.luContents,
@@ -265,12 +270,11 @@ export class Builder {
       loadResult.crosstrainedRecognizers,
       'crosstrained'
     );
-    console.log(buildResult);
+    //console.log(buildResult);
 
     this.replaceRoot(buildResult, rootDialogId);
 
-    console.log('fixed');
-    console.log(buildResult);
+    //console.log(buildResult);
 
     await this.luBuilder.writeDialogAssets(buildResult, true, this.generatedFolderPath);
   }
