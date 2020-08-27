@@ -2,8 +2,8 @@
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
     "$designer": {
-      "name": "VirtualAssistant",
-      "id": "ZyjX9C"
+      "name": "Assistant",
+      "id": "yljW4K"
     }
   },
   "autoEndDialog": true,
@@ -34,25 +34,25 @@
                 {
                   "$kind": "Microsoft.IfCondition",
                   "$designer": {
-                    "id": "77K1Dw"
+                    "id": "79ozrh"
                   },
                   "condition": "exists(user.name)",
                   "actions": [
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "Z4wIqv"
+                        "id": "eFWCwn"
                       },
-                      "activity": "${SendActivity_Z4wIqv()}"
+                      "activity": "${SendActivity_eFWCwn()}"
                     }
                   ],
                   "elseActions": [
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "GGzXMm"
+                        "id": "093uOZ"
                       },
-                      "activity": "${SendActivity_GGzXMm()}"
+                      "activity": "${SendActivity_093uOZ()}"
                     }
                   ]
                 }
@@ -65,14 +65,14 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "58jcVt"
+        "id": "CbiPPL"
       },
       "intent": "Onboarding",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "kgncrN"
+            "id": "jc7tAB"
           },
           "activityProcessed": true,
           "dialog": "Onboarding"
@@ -82,57 +82,37 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "kThuma"
+        "id": "gZE9hG"
       },
       "intent": "General",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "wcGafP"
+            "id": "q4TygS"
           },
           "activityProcessed": false,
           "dialog": "General"
         }
-      ],
-      "condition": "turn.recognized.score > 0.75"
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "$designer": {
-        "id": "dOGVPT"
-      },
-      "intent": "FAQ",
-      "actions": [
-        {
-          "$kind": "Microsoft.BeginDialog",
-          "$designer": {
-            "id": "4fUxUI"
-          },
-          "activityProcessed": false,
-          "dialog": "FAQ"
-        }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnUnknownIntent",
       "$designer": {
-        "id": "SMaVqW"
+        "id": "rGaaTe"
       },
       "actions": [
         {
-          "$kind": "Microsoft.BeginDialog",
+          "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "8gE4p4"
+            "id": "Tdowmo"
           },
-          "activityProcessed": false,
-          "dialog": "Chit-chat"
+          "activity": "${SendActivity_Tdowmo()}"
         }
       ]
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
-  "generator": "virtualassistant.lg",
-  "recognizer": "virtualassistant.lu"
+  "generator": "assistant.lg",
+  "recognizer": "assistant.lu"
 }

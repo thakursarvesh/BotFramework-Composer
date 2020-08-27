@@ -1,13 +1,13 @@
 [import](common.lg)
 
 
-# SendActivity_Z4wIqv()
+# SendActivity_eFWCwn()
 [Activity
 Speak = ${ReturningUserGreeting()}
 SuggestedActions = Get started
 Attachments = ${json(ReturningUserIntroCardJson())}
 ]
-# SendActivity_GGzXMm()
+# SendActivity_093uOZ()
 [Activity
 Speak = ${NewUserGreeting()}
 SuggestedActions = Get started
@@ -140,3 +140,5 @@ Attachments = ${json(NewUserIntroCardJson())}
   "speak": "${ReturningUserGreeting()}"
 }
 ```
+# SendActivity_Tdowmo()
+- Sorry, I don't understand.

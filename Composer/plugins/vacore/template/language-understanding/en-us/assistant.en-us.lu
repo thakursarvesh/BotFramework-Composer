@@ -4,7 +4,6 @@
 - get started
 
 
-
 # General
 - again
 - could you say it again
@@ -91,33 +90,3 @@
 - please do nothing
 - quit
 - sorry, don't do it
-
-# FAQ
-- what can the point of interest skill do
-- what skills do you have
-- what can you do
-- what is a skill
-- what can the email skill do
-- what is a virtual assistant
-- what can the todo skill do
-- how do i raise a bug
-- what can the calendar skill do
-- whats new
-- what's new
-
-
-
-#ExtractName
-- call me steve !
-- i am anna
-- it is jackson .
-- it's alice anderson!
-- my name is bill jones
-- {PersonName=Darren}
-- this is  {PersonName=darren} .
-- ([you can]|[please]) call me {PersonName=lisa}[.]
-- (i'm|i am){PersonName=filip} [.]
-- (it's|it is|this is) {PersonName=maggie}[.]
-- my name is {PersonName=ryan}[.]
-
-@ ml PersonName
