@@ -7,6 +7,8 @@ import { useRecoilCallback, CallbackInterface } from 'recoil';
 import { PromptTab, SDKKinds } from '@bfc/shared';
 import cloneDeep from 'lodash/cloneDeep';
 
+import { botProjectSpaceLoadedState } from '../atoms';
+
 import { createSelectedPath, getSelected } from './../../utils/dialogUtil';
 import { BreadcrumbItem } from './../../recoilModel/types';
 import { breadcrumbState, designPageLocationState, focusPathState, dialogsState } from './../atoms/botState';
@@ -51,6 +53,8 @@ export const navigationDispatcher = () => {
       dialogId: string,
       breadcrumb: BreadcrumbItem[] = []
     ) => {
+      const isLoaded = await snapshot.getPromise(botProjectSpaceLoadedState);
+      console.log('LOOOOAD', isLoaded);
       const dialogs = await snapshot.getPromise(dialogsState(projectId));
       const designPageLocation = await snapshot.getPromise(designPageLocationState(projectId));
       const updatedBreadcrumb = cloneDeep(breadcrumb);

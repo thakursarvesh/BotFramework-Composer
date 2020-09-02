@@ -165,3 +165,8 @@ export const currentProjectIdState = atom<string>({
   key: getFullyQualifiedKey('currentProjectId'),
   default: '',
 });
+
+export const botProjectSpaceLoadedState = atom<boolean>({
+  key: getFullyQualifiedKey('botProjectSpaceLoaded'),
+  default: false,
+});

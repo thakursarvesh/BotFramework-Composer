@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { useRef, useEffect, useState, Fragment } from 'react';
-
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { atom, useRecoilTransactionObserver_UNSTABLE, Snapshot, useRecoilState } from 'recoil';
 import once from 'lodash/once';
@@ -10,8 +9,8 @@ import React from 'react';
 import { BotAssets } from '@bfc/shared';
 import { useRecoilValue } from 'recoil';
 
-import UndoHistory from './undo/undoHistory';
-import { UndoRoot } from './undo/history';
+// import UndoHistory from './undo/undoHistory';
+// import { UndoRoot } from './undo/history';
 import { prepareAxios } from './../utils/auth';
 import filePersistence from './persistence/FilePersistence';
 import createDispatchers, { Dispatcher } from './dispatchers';
@@ -93,11 +92,13 @@ export const DispatcherWrapper = ({ children }) => {
     }
   });
 
+  // TODO: Handle Undo/Redo
+  // {botProjects.map((projectId) => (
+  //   <UndoRoot key={projectId} projectId={projectId} undoHistory={new UndoHistory()} />
+  // ))}
+
   return (
     <Fragment>
-      {botProjects.map((projectId) => (
-        <UndoRoot key={projectId} projectId={projectId} undoHistory={new UndoHistory()} />
-      ))}
       <InitDispatcher onLoad={setLoaded} />
       {loaded ? children : null}
     </Fragment>
