@@ -227,6 +227,7 @@ export const projectMetaDataState = atomFamily<any, string>({
 export const designPageLocationState = atomFamily<DesignPageLocation, string>({
   key: getFullyQualifiedKey('designPageLocation'),
   default: {
+    projectId: '',
     dialogId: '',
     focused: '',
     selected: '',

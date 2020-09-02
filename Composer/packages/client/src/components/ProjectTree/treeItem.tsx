@@ -38,7 +38,7 @@ const content = css`
   outline: none;
   display: flex;
   align-items: center;
-  justify-items: middle;
+  justify-items: center;
   height: 24px;
 
   label: ProjectTreeItem;

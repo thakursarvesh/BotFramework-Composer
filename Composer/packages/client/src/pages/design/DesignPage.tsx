@@ -258,11 +258,11 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
     createTrigger(dialogId, formData);
   };
 
-  function handleSelect(projectId, id, selected = '') {
-    if (selected) {
-      selectTo(projectId, selected);
+  function handleSelect(projectId: string, dialogId: string, selected: string) {
+    if (selected != null) {
+      selectTo(projectId, dialogId, selected);
     } else {
-      navTo(projectId, id, []);
+      navTo(projectId, dialogId, []);
     }
   }
 

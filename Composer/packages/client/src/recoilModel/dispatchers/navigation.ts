@@ -36,6 +36,7 @@ export const navigationDispatcher = () => {
       //add current path to the breadcrumb
       set(breadcrumbState(projectId), [...breadcrumb, { dialogId, selected, focused }]);
       set(designPageLocationState(projectId), {
+        projectId,
         dialogId,
         selected,
         focused,
@@ -74,15 +75,17 @@ export const navigationDispatcher = () => {
   );
 
   const selectTo = useRecoilCallback(
-    ({ snapshot }: CallbackInterface) => async (projectId: string, selectPath: string) => {
+    ({ snapshot }: CallbackInterface) => async (
+      projectId: string,
+      dialogId: string | undefined,
+      selectPath: string | undefined
+    ) => {
       if (!selectPath) return;
       const designPageLocation = await snapshot.getPromise(designPageLocationState(projectId));
       const breadcrumb = await snapshot.getPromise(breadcrumbState(projectId));
 
       // initial dialogId, projectId maybe empty string  ""
-      let { dialogId } = designPageLocation;
-
-      if (!dialogId) dialogId = 'Main';
+      dialogId = dialogId ?? designPageLocation.dialogId ?? 'Main';
 
       const currentUri = convertPathToUrl(projectId, dialogId, selectPath);
 

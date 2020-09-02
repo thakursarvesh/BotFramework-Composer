@@ -143,7 +143,7 @@ export const UndoRoot = React.memo((props: UndoRootProps) => {
 
       undoHistory.add(assetMap);
     } else if (!assetsChanged.current) {
-      debugger;
+      //debugger;
       if (checkAtomsChanged(currentAssets, previousAssets, trackedAtoms(projectId))) {
         assetsChanged.current = true;
       }

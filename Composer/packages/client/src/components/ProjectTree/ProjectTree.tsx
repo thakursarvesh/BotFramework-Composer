@@ -145,7 +145,9 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
         isActive={dialog.id === props.dialogId && createSelectedPath(item.index) === selected}
         link={item}
         onDelete={() => onDeleteTrigger(dialog.id, item.index)}
-        onSelect={() => onSelect(dialog.id, createSelectedPath(item.index))}
+        onSelect={() => {
+          onSelect(dialog.id, createSelectedPath(item.index));
+        }}
       />
     );
   }
