@@ -82,7 +82,7 @@ export const navigationDispatcher = () => {
     ) => {
       if (!selectPath) return;
       const designPageLocation = await snapshot.getPromise(designPageLocationState(projectId));
-      const breadcrumb = await snapshot.getPromise(breadcrumbState(projectId));
+      // const breadcrumb = await snapshot.getPromise(breadcrumbState(projectId));
 
       // initial dialogId, projectId maybe empty string  ""
       dialogId = dialogId ?? designPageLocation.dialogId ?? 'Main';
@@ -90,7 +90,7 @@ export const navigationDispatcher = () => {
       const currentUri = convertPathToUrl(projectId, dialogId, selectPath);
 
       if (checkUrl(currentUri, projectId, designPageLocation)) return;
-      navigateTo(currentUri, { state: { breadcrumb: updateBreadcrumb(breadcrumb, BreadcrumbUpdateType.Selected) } });
+      navigateTo(currentUri, { state: { breadcrumb: [{ dialogId, selected: '', focused: '' }] } });
     }
   );
 

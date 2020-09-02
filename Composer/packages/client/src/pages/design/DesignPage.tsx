@@ -20,7 +20,7 @@ import { DialogDeleting } from '../../constants';
 import {
   createSelectedPath,
   deleteTrigger,
-  getbreadcrumbLabel,
+  getBreadcrumbLabel,
   qnaMatcherKey,
   TriggerFormData,
   getDialogData,
@@ -456,11 +456,12 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
   }
 
   const breadcrumbItems = useMemo(() => {
+    console.log(breadcrumb);
     const items =
       dialogs.length > 0
         ? breadcrumb.reduce((result, item, index) => {
             const { dialogId, selected, focused } = item;
-            const text = getbreadcrumbLabel(dialogs, dialogId, selected, focused);
+            const text = getBreadcrumbLabel(dialogs, dialogId, selected, focused);
             if (text) {
               result.push({
                 // @ts-ignore
