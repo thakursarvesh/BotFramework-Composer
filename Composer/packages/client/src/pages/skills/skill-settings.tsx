@@ -40,7 +40,6 @@ const SkillSettings: React.FC<ISkillFormProps> = (props) => {
       [event.target.id]: event.target.value,
     };
     setSkillSettings({ ...localSettings });
-    console.log('ehh', localSettings);
     props.setSettings(props.projectId, { ...props.settings, ...localSettings });
   };
 
