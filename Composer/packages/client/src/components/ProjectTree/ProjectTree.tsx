@@ -62,32 +62,6 @@ function sortDialog(dialogs: DialogInfo[]) {
   });
 }
 
-// function createItemsAndGroups(
-//   dialogs: DialogInfo[],
-//   dialogId: string,
-//   filter: string
-// ): { items: any[]; groups: IGroup[] } {
-//   let position = 0;
-//   const result = dialogs
-//     .filter((dialog) => {
-//       return dialog.displayName.toLowerCase().includes(filter.toLowerCase());
-//     })
-//     .reduce(
-//       (result: { items: any[]; groups: IGroup[] }, dialog) => {
-//         const warningContent = containUnsupportedTriggers(dialog);
-//         result.groups.push(createGroupItem(dialog, dialogId, position, warningContent));
-//         position += dialog.triggers.length;
-//         dialog.triggers.forEach((item, index) => {
-//           const warningContent = triggerNotSupported(dialog, item);
-//           result.items.push(createItem(item, index, warningContent));
-//         });
-//         return result;
-//       },
-//       { items: [], groups: [] }
-//     );
-//   return result;
-// }
-
 interface IProjectTreeProps {
   dialogs: DialogInfo[];
   dialogId: string;
@@ -117,7 +91,29 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
     return sortDialog(dialogs);
   }, [dialogs]);
 
-  const renderHeader = (dialog: DialogInfo, warningContent: string) => {
+  const renderBotHeader = (dialog: DialogInfo, hasWarnings: boolean) => {
+    return (
+      <span
+        css={css`
+          margin-top: -6px;
+          width: 100%;
+        `}
+        role="grid"
+      >
+        <TreeItem
+          showProps
+          depth={0}
+          icon={'CannedChat'}
+          isSubItemActive={!!selected}
+          link={{ ...dialog, warningContent: hasWarnings ? formatMessage('This bot has warnings') : null }}
+          onDelete={onDeleteDialog}
+          onSelect={() => onSelect(dialog.id)}
+        />
+      </span>
+    );
+  };
+
+  const renderDialogHeader = (dialog: DialogInfo, warningContent: string) => {
     return (
       <span
         ref={dialog.isRoot ? addMainDialogRef : null}
@@ -199,7 +195,7 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
               padding-top: 12px;
             `}
           >
-            {renderHeader(dialog, containUnsupportedTriggers(dialog))}
+            {renderDialogHeader(dialog, containUnsupportedTriggers(dialog))}
           </summary>
           {triggerList}
         </details>

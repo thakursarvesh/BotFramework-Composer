@@ -157,10 +157,9 @@ export const botProjectSpaceTreeSelector = selector({
   key: 'botProjectSpaceTreeSelector',
   get: ({ get }) => {
     const botProjects = get(botProjectsState);
-    const result = botProjects.map((botProjectId: string) => {
-      const dialogs = get(dialogsState(botProjectId));
-      const projectId = botProjectId;
-      return { dialogs, projectId };
+    const result = botProjects.map((projectId: string) => {
+      const dialogs = get(dialogsState(projectId));
+      return { dialogs, projectId, name: get(botNameState(projectId)) };
     });
     return result;
   },
