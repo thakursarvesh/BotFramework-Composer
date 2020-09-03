@@ -45,9 +45,9 @@ import {
   isEjectRuntimeExistState,
   qnaFilesState,
   botProjectsState,
+  runtimeStatusState,
 } from '../atoms';
 import { undoFunctionState, undoVersionState } from '../undo/history';
-import { dispatcherState } from '../DispatcherWrapper';
 
 export const botStateByProjectIdSelector = selector({
   key: 'botStateByProjectIdSelector',
@@ -157,9 +157,12 @@ export const botProjectSpaceTreeSelector = selector({
   key: 'botProjectSpaceTreeSelector',
   get: ({ get }) => {
     const botProjects = get(botProjectsState);
-    const result = botProjects.map((projectId: string) => {
-      const dialogs = get(dialogsState(projectId));
-      return { dialogs, projectId, name: get(botNameState(projectId)) };
+    const result = botProjects.map((botProjectId: string) => {
+      const dialogs = get(dialogsState(botProjectId));
+      const projectId = botProjectId;
+      const runtimeStatus = get(runtimeStatusState(botProjectId));
+      const botName = get(botNameState(botProjectId));
+      return { dialogs, projectId, botProjectId, botName, runtimeStatus };
     });
     return result;
   },

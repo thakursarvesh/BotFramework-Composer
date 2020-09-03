@@ -30,6 +30,7 @@ import { getReferredQnaFiles } from '../../utils/qnaUtil';
 
 import { getReferredLuFiles } from './../../utils/luUtil';
 import { PublishDialog } from './publishDialog';
+import { StartBotsDialog } from './startBotsDialog';
 import { ErrorCallout } from './errorCallout';
 import { EmulatorOpenButton } from './emulatorOpenButton';
 import { Loading } from './loading';
@@ -212,15 +213,16 @@ export const TestController: React.FC<{ projectId: string }> = (props) => {
         },
       }
     );
-    if (!isAbsHosted() && needsPublish(dialogs)) {
-      if (botStatus === BotStatus.failed || botStatus === BotStatus.pending || !isConfigComplete(config)) {
-        openDialog();
-      } else {
-        await handlePublish(config);
-      }
-    } else {
-      await handleLoadBot();
-    }
+    openDialog();
+    // if (!isAbsHosted() && needsPublish(dialogs)) {
+    //   if (botStatus === BotStatus.failed || botStatus === BotStatus.pending || !isConfigComplete(config)) {
+    //     openDialog();
+    //   } else {
+    //     await handlePublish(config);
+    //   }
+    // } else {
+    //   await handleLoadBot();
+    // }
   }
 
   function handleErrorButtonClick() {
@@ -257,7 +259,7 @@ export const TestController: React.FC<{ projectId: string }> = (props) => {
           <WarningInfo count={warningLength} hidden={!showWarning} onClick={handleErrorButtonClick} />
           <PrimaryButton
             css={botButton}
-            disabled={showError || publishing || reloading}
+            disabled={publishing || reloading}
             id={'publishAndConnect'}
             text={connected ? formatMessage('Restart Bot') : formatMessage('Start Bot')}
             onClick={handleStart}
@@ -271,16 +273,16 @@ export const TestController: React.FC<{ projectId: string }> = (props) => {
         onDismiss={dismissCallout}
         onTry={handleStart}
       />
-      {settings.luis && modalOpen && (
-        <PublishDialog
-          botName={botName}
-          config={publishDialogConfig}
-          isOpen={modalOpen}
-          projectId={projectId}
-          onDismiss={dismissDialog}
-          onPublish={handlePublish}
-        />
-      )}
+      {settings.luis && modalOpen && <StartBotsDialog isOpen={modalOpen} onDismiss={dismissDialog} />}
     </Fragment>
   );
 };
+
+// <PublishDialog
+//   botName={botName}
+//   config={publishDialogConfig}
+//   isOpen={modalOpen}
+//   projectId={projectId}
+//   onDismiss={dismissDialog}
+//   onPublish={handlePublish}
+// />

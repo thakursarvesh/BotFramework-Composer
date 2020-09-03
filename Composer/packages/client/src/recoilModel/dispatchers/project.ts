@@ -341,7 +341,7 @@ export const projectDispatcher = () => {
         if (protocol === 'file:') {
           const relativeSkillPath = skill.workspace.replace('file://', '');
           const skillPath = path.resolve(rootBotPath, relativeSkillPath);
-          promises.push(httpClient.put(`/projects/open`, { path: skillPath.replace(/^\//, ''), storageId }));
+          promises.push(httpClient.put(`/projects/open`, { path: path.normalize(skillPath), storageId }));
         }
       } else {
         //Handle remote skill

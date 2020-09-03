@@ -75,7 +75,7 @@ export const SelectTriggers: React.FC<ContentProps> = ({ setSelectedTriggers, pr
       data: 'string',
       onRender: (item: ITrigger) => {
         const label = getLabel(item.type as SDKKinds, schemas.ui?.content || {});
-        return <span aria-label={label}>{label}</span>;
+        return <span aria-label={label}>{label + 'sdfsdf'}</span>;
       },
       isPadded: true,
     },

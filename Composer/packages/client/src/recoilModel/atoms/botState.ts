@@ -22,6 +22,11 @@ const getFullyQualifiedKey = (value: string) => {
   return `Bot_${value}_State`;
 };
 
+export enum RuntimeStatus {
+  Started,
+  Stop,
+}
+
 export const dialogsState = atomFamily<DialogInfo[], string>({
   key: getFullyQualifiedKey('dialogs'),
   default: (id) => {
@@ -247,4 +252,9 @@ export const isEjectRuntimeExistState = atomFamily<boolean, string>({
 export const qnaFilesState = atomFamily<QnAFile[], string>({
   key: getFullyQualifiedKey('qnaFiles'),
   default: [],
+});
+
+export const runtimeStatusState = atomFamily<RuntimeStatus, string>({
+  key: getFullyQualifiedKey('runtimeStatus'),
+  default: RuntimeStatus.Stop,
 });
