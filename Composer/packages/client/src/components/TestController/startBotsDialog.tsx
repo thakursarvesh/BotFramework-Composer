@@ -45,6 +45,9 @@ const dialog = {
 };
 
 const rowHeader = { display: 'flex', alignItems: 'center' };
+const statusStyle = {
+  color: SharedColors.green20,
+};
 
 const icon = () =>
   ({
@@ -118,7 +121,11 @@ export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
       isSorted: true,
       data: 'string',
       onRender: (item: any) => {
-        return <span aria-label={item.status}>{item.status}</span>;
+        return (
+          <span aria-label={item.status} style={statusStyle}>
+            {item.status}
+          </span>
+        );
       },
       isPadded: true,
     },
@@ -154,6 +161,7 @@ export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
       <div css={styles.detailListContainer}>
         <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
           <ActionButton css={actionButton} onClick={startAllBots}>
+            {allBotsStarted ? <Icon iconName={allBotsStarted ? 'CircleStopSolid' : ''} styles={icon()} /> : null}
             {allBotsStarted ? <span> Stop all Bots </span> : <span>Start all bots</span>}
           </ActionButton>
 
