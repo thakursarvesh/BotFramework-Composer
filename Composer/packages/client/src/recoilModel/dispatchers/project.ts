@@ -33,6 +33,8 @@ import {
   projectMetaDataState,
   currentProjectIdState,
   botProjectSpaceLoadedState,
+  runtimeStatusState,
+  RuntimeStatus,
 } from '../atoms';
 import { QnABotTemplateId } from '../../constants';
 
@@ -651,6 +653,12 @@ export const projectDispatcher = () => {
     set(botProjectSpaceLoadedState, loadingState);
   });
 
+  const setRuntimeStatus = useRecoilCallback(
+    ({ set }: CallbackInterface) => async (projectId: string, status: RuntimeStatus) => {
+      set(runtimeStatusState(projectId), status);
+    }
+  );
+
   return {
     openProject,
     createProject,
@@ -668,5 +676,6 @@ export const projectDispatcher = () => {
     getBoilerplateVersion,
     addToBotProject,
     setBotProjectSpaceLoaded,
+    setRuntimeStatus,
   };
 };

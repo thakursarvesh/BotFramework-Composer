@@ -46,6 +46,7 @@ import {
   qnaFilesState,
   botProjectsState,
   runtimeStatusState,
+  RuntimeStatus,
 } from '../atoms';
 import { undoFunctionState, undoVersionState } from '../undo/history';
 
@@ -160,9 +161,9 @@ export const botProjectSpaceTreeSelector = selector({
     const result = botProjects.map((botProjectId: string) => {
       const dialogs = get(dialogsState(botProjectId));
       const projectId = botProjectId;
-      const runtimeStatus = get(runtimeStatusState(botProjectId));
-      const botName = get(botNameState(botProjectId));
-      return { dialogs, projectId, botProjectId, botName, runtimeStatus };
+      const runtimeStatus: RuntimeStatus = get(runtimeStatusState(botProjectId));
+      const name = get(botNameState(botProjectId));
+      return { dialogs, projectId, botProjectId, name, runtimeStatus };
     });
     return result;
   },

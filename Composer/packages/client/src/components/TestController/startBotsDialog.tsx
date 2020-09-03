@@ -21,7 +21,7 @@ import { useRecoilValue } from 'recoil';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import { SharedColors, FontSizes } from '@uifabric/fluent-theme';
 
-import { botProjectSpaceTreeSelector, RuntimeStatus } from '../../recoilModel';
+import { botProjectSpaceTreeSelector, RuntimeStatus, botProjectsState, dispatcherState } from '../../recoilModel';
 
 const styles = {
   detailListContainer: css`
@@ -67,17 +67,22 @@ interface IStartBotsDialogProps {
 export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
   const { isOpen, onDismiss } = props;
   const projectCollection = useRecoilValue(botProjectSpaceTreeSelector);
+  const botProjects = useRecoilValue(botProjectsState);
+  const dispatcher = useRecoilValue(dispatcherState);
   const [items, setItems] = useState<{ displayName: string; status: string }[]>([]);
+  const [allBotsStarted, setAllBotsStarted] = useState<boolean>(false);
 
   useEffect(() => {
     const transformedItems: any[] = projectCollection.map((projectData) => {
       return {
-        displayName: projectData.botName,
+        displayName: projectData.name,
         status: projectData.runtimeStatus === RuntimeStatus.Started ? 'Running' : '',
       };
     });
     setItems(transformedItems);
   }, [projectCollection]);
+
+  const startBot = async (props) => {};
 
   const onRenderRow = (props?: IDetailsRowProps, defaultRender?: IRenderFunction<IDetailsRowProps>): JSX.Element => {
     return <div>{defaultRender && defaultRender(props)}</div>;
@@ -97,7 +102,7 @@ export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
       onRender: (item: any) => {
         return (
           <div style={rowHeader}>
-            <Icon iconName="Play" styles={icon()} />
+            <Icon iconName={item.status === 'Running' ? 'CircleStopSolid' : 'Play'} styles={icon()} />
             <span aria-label={item.displayName}>{item.displayName}</span>
           </div>
         );
@@ -118,7 +123,17 @@ export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
       isPadded: true,
     },
   ];
-  const startAllBots = () => {};
+  const startAllBots = async () => {
+    for (const projectId of botProjects) {
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          dispatcher.setRuntimeStatus(projectId, RuntimeStatus.Started);
+          resolve();
+        }, 1500);
+      });
+    }
+    setAllBotsStarted(true);
+  };
 
   return (
     <Dialog
@@ -139,7 +154,7 @@ export const StartBotsDialog: React.FC<IStartBotsDialogProps> = (props) => {
       <div css={styles.detailListContainer}>
         <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
           <ActionButton css={actionButton} onClick={startAllBots}>
-            Start all bots
+            {allBotsStarted ? <span> Stop all Bots </span> : <span>Start all bots</span>}
           </ActionButton>
 
           <DetailsList
