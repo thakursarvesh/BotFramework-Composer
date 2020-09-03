@@ -152,3 +152,16 @@ export const botProjectSpaceLoadedSelector = selector({
     return projectNames;
   },
 });
+
+export const botProjectSpaceTreeSelector = selector({
+  key: 'botProjectSpaceTreeSelector',
+  get: ({ get }) => {
+    const botProjects = get(botProjectsState);
+    const result = botProjects.map((botProjectId: string) => {
+      const dialogs = get(dialogsState(botProjectId));
+      const projectId = botProjectId;
+      return { dialogs, projectId };
+    });
+    return result;
+  },
+});

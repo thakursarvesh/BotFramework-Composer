@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /** @jsx jsx */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, Fragment } from 'react';
 import { jsx, css } from '@emotion/core';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
@@ -15,6 +15,7 @@ import { useRecoilValue } from 'recoil';
 import { ISearchBoxStyles } from 'office-ui-fabric-react/lib/SearchBox';
 
 import { dispatcherState, userSettingsState } from '../../recoilModel';
+import { botProjectSpaceTreeSelector } from '../../recoilModel/selectors';
 import { createSelectedPath, getFriendlyName } from '../../utils/dialogUtil';
 import { containUnsupportedTriggers, triggerNotSupported } from '../../utils/dialogValidator';
 
@@ -108,6 +109,9 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
   const [filter, setFilter] = useState('');
   const delayedSetFilter = debounce((newValue) => setFilter(newValue), 1000);
   const addMainDialogRef = useCallback((mainDialog) => onboardingAddCoachMarkRef({ mainDialog }), []);
+  const projectCollection = useRecoilValue(botProjectSpaceTreeSelector);
+
+  console.log(projectCollection);
 
   const sortedDialogs = useMemo(() => {
     return sortDialog(dialogs);
@@ -206,34 +210,35 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
   const detailsTree = createDetailsTree(sortedDialogs, filter);
 
   return (
-    <Resizable
-      enable={{
-        right: true,
-      }}
-      maxWidth={500}
-      minWidth={180}
-      size={{ width: currentWidth, height: 'auto' }}
-      onResizeStop={handleResize}
-    >
-      <div
-        aria-label={formatMessage('Navigation pane')}
-        className="ProjectTree"
-        css={root}
-        data-testid="ProjectTree"
-        role="region"
+    <Fragment>
+      <Resizable
+        enable={{
+          right: true,
+        }}
+        maxWidth={500}
+        minWidth={180}
+        size={{ width: currentWidth, height: 'auto' }}
+        onResizeStop={handleResize}
       >
-        <FocusZone isCircularNavigation direction={FocusZoneDirection.vertical}>
-          <SearchBox
-            underlined
-            ariaLabel={formatMessage('Type dialog name')}
-            iconProps={{ iconName: 'Filter' }}
-            placeholder={formatMessage('Filter Dialog')}
-            styles={searchBox}
-            onChange={onFilter}
-          />
-          <div
-            aria-label={formatMessage(
-              `{
+        <div
+          aria-label={formatMessage('Navigation pane')}
+          className="ProjectTree"
+          css={root}
+          data-testid="ProjectTree"
+          role="region"
+        >
+          <FocusZone isCircularNavigation direction={FocusZoneDirection.vertical}>
+            <SearchBox
+              underlined
+              ariaLabel={formatMessage('Type dialog name')}
+              iconProps={{ iconName: 'Filter' }}
+              placeholder={formatMessage('Filter Dialog')}
+              styles={searchBox}
+              onChange={onFilter}
+            />
+            <div
+              aria-label={formatMessage(
+                `{
             dialogNum, plural,
                 =0 {No dialogs}
                 =1 {One dialog}
@@ -244,13 +249,14 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
                   0 {}
                 other {Press down arrow key to navigate the search results}
             }`,
-              { dialogNum: dialogs.length }
-            )}
-            aria-live={'polite'}
-          />
-          {detailsTree}
-        </FocusZone>
-      </div>
-    </Resizable>
+                { dialogNum: dialogs.length }
+              )}
+              aria-live={'polite'}
+            />
+            {detailsTree}
+          </FocusZone>
+        </div>
+      </Resizable>
+    </Fragment>
   );
 };
