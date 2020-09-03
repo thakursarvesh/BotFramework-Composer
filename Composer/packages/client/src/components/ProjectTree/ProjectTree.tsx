@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /** @jsx jsx */
-import React, { useCallback, useMemo, useState, Fragment } from 'react';
+import React, { useCallback, useState, Fragment } from 'react';
 import { jsx, css } from '@emotion/core';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
@@ -43,7 +43,22 @@ const root = css`
   }
 `;
 
+const summaryStyle = css`
+  display: flex;
+  padding-left: 12px;
+  padding-top: 12px;
+`;
+
 // -------------------- ProjectTree -------------------- //
+
+export type TreeLink = {
+  displayName: string;
+  isRoot: boolean;
+  warningContent?: string;
+  projectId: string;
+  dialogName?: string;
+  trigger?: number;
+};
 
 function getTriggerName(trigger: ITrigger) {
   return trigger.displayName || getFriendlyName({ $kind: trigger.type });
@@ -63,35 +78,40 @@ function sortDialog(dialogs: DialogInfo[]) {
 }
 
 interface IProjectTreeProps {
-  dialogs: DialogInfo[];
   dialogId: string;
   selected: string;
-  onSelect: (id: string, selected?: string) => void;
-  onDeleteTrigger: (id: string, index: number) => void;
-  onDeleteDialog: (id: string) => void;
+  onSelect: (link: TreeLink) => void;
+  onDelete: (link: TreeLink) => void;
 }
 
 const TYPE_TO_ICON_MAP = {
   'Microsoft.OnUnknownIntent': '',
 };
 
+type BotInProject = {
+  dialogs: DialogInfo[];
+  projectId: string;
+  name: string;
+};
+
 export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
   const { onboardingAddCoachMarkRef, updateUserSettings } = useRecoilValue(dispatcherState);
   const { dialogNavWidth: currentWidth } = useRecoilValue(userSettingsState);
 
-  const { dialogs, selected, onSelect, onDeleteTrigger, onDeleteDialog } = props;
+  const { selected, onSelect, onDelete } = props;
   const [filter, setFilter] = useState('');
   const delayedSetFilter = debounce((newValue) => setFilter(newValue), 1000);
   const addMainDialogRef = useCallback((mainDialog) => onboardingAddCoachMarkRef({ mainDialog }), []);
-  const projectCollection = useRecoilValue(botProjectSpaceTreeSelector);
+  const projectCollection = useRecoilValue<BotInProject[]>(botProjectSpaceTreeSelector);
 
-  console.log(projectCollection);
+  const renderBotHeader = (bot: BotInProject, hasWarnings: boolean) => {
+    const link: TreeLink = {
+      displayName: bot.name,
+      projectId: bot.projectId,
+      isRoot: true,
+      warningContent: hasWarnings ? formatMessage('This bot has warnings') : undefined,
+    };
 
-  const sortedDialogs = useMemo(() => {
-    return sortDialog(dialogs);
-  }, [dialogs]);
-
-  const renderBotHeader = (dialog: DialogInfo, hasWarnings: boolean) => {
     return (
       <span
         css={css`
@@ -100,20 +120,19 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
         `}
         role="grid"
       >
-        <TreeItem
-          showProps
-          depth={0}
-          icon={'CannedChat'}
-          isSubItemActive={!!selected}
-          link={{ ...dialog, warningContent: hasWarnings ? formatMessage('This bot has warnings') : null }}
-          onDelete={onDeleteDialog}
-          onSelect={() => onSelect(dialog.id)}
-        />
+        <TreeItem showProps depth={0} icon={'ChatBot'} isSubItemActive={!!selected} link={link} onSelect={onSelect} />
       </span>
     );
   };
 
-  const renderDialogHeader = (dialog: DialogInfo, warningContent: string) => {
+  const renderDialogHeader = (projectId: string, dialog: DialogInfo, warningContent: string) => {
+    const link: TreeLink = {
+      dialogName: dialog.id,
+      displayName: dialog.displayName,
+      isRoot: dialog.isRoot,
+      projectId: projectId,
+      warningContent,
+    };
     return (
       <span
         ref={dialog.isRoot ? addMainDialogRef : null}
@@ -125,29 +144,37 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
       >
         <TreeItem
           showProps
-          depth={0}
+          depth={1}
           icon={'CannedChat'}
           isSubItemActive={!!selected}
-          link={{ ...dialog, warningContent }}
-          onDelete={onDeleteDialog}
-          onSelect={() => onSelect(dialog.id)}
+          link={link}
+          onDelete={onDelete}
+          onSelect={onSelect}
         />
       </span>
     );
   };
 
-  function renderCell(item: any, depth: number, dialog: DialogInfo): React.ReactNode {
+  function renderTrigger(projectId: string, item: any, dialog: DialogInfo): React.ReactNode {
+    const link: TreeLink = {
+      displayName: item.displayName,
+      warningContent: item.warningContent,
+      trigger: item.index,
+      dialogName: dialog.id,
+      isRoot: false,
+      projectId: projectId,
+    };
+
     return (
       <TreeItem
-        depth={depth}
+        key={`${item.id}_${item.index}`}
+        depth={2}
         dialogName={dialog.displayName}
         icon={TYPE_TO_ICON_MAP[item.type] || 'Flow'}
         isActive={dialog.id === props.dialogId && createSelectedPath(item.index) === selected}
-        link={item}
-        onDelete={() => onDeleteTrigger(dialog.id, item.index)}
-        onSelect={() => {
-          onSelect(dialog.id, createSelectedPath(item.index));
-        }}
+        link={link}
+        onDelete={onDelete}
+        onSelect={onSelect}
       />
     );
   }
@@ -166,7 +193,7 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
     return scope.toLowerCase().includes(target.toLowerCase());
   }
 
-  function createDetailsTree(dialogs: DialogInfo[], filter: string) {
+  function createDetailsTree(projectId: string, dialogs: DialogInfo[], filter: string) {
     const filteredDialogs =
       filter == null || filter.length === 0
         ? dialogs
@@ -180,22 +207,16 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
       const triggerList = dialog.triggers
         .filter((tr) => filterMatch(dialog.displayName, filter) || filterMatch(getTriggerName(tr), filter))
         .map((tr, index) =>
-          renderCell(
+          renderTrigger(
+            projectId,
             { ...tr, index, displayName: getTriggerName(tr), warningContent: triggerNotSupported(dialog, tr) },
-            1,
             dialog
           )
         );
       return (
         <details key={dialog.id} ref={dialog.isRoot ? addMainDialogRef : undefined}>
-          <summary
-            css={css`
-              display: flex;
-              padding-left: 12px;
-              padding-top: 12px;
-            `}
-          >
-            {renderDialogHeader(dialog, containUnsupportedTriggers(dialog))}
+          <summary css={summaryStyle}>
+            {renderDialogHeader(projectId, dialog, containUnsupportedTriggers(dialog))}
           </summary>
           {triggerList}
         </details>
@@ -203,7 +224,18 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
     });
   }
 
-  const detailsTree = createDetailsTree(sortedDialogs, filter);
+  const projectTree = projectCollection.map((bot) => {
+    const { dialogs } = bot;
+
+    const sortedDialogs = sortDialog(dialogs);
+
+    return (
+      <details key={bot.projectId}>
+        <summary css={summaryStyle}>{renderBotHeader(bot, false)}</summary>
+        {createDetailsTree(bot.projectId, sortedDialogs, filter)}
+      </details>
+    );
+  });
 
   return (
     <Fragment>
@@ -236,20 +268,20 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
               aria-label={formatMessage(
                 `{
             dialogNum, plural,
-                =0 {No dialogs}
-                =1 {One dialog}
-              other {# dialogs}
+                =0 {No bots}
+                =1 {One bot}
+              other {# bots}
             } have been found.
             {
               dialogNum, select,
                   0 {}
                 other {Press down arrow key to navigate the search results}
             }`,
-                { dialogNum: dialogs.length }
+                { dialogNum: projectCollection.length }
               )}
               aria-live={'polite'}
             />
-            {detailsTree}
+            {projectTree}
           </FocusZone>
         </div>
       </Resizable>

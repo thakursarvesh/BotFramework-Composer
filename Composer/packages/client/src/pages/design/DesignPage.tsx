@@ -258,8 +258,11 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
     createTrigger(dialogId, formData);
   };
 
-  function handleSelect(projectId: string, dialogId: string, selected: string | undefined) {
-    if (selected != null) {
+  function handleSelect(projectId: string, dialogId: string | undefined, selected: string | undefined) {
+    if (dialogId == null) {
+      // maybe navigate to overall bot settings?
+      return;
+    } else if (selected != null) {
       selectTo(projectId, dialogId, selected);
     } else {
       navTo(projectId, dialogId, []);
@@ -515,7 +518,7 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
     commitChanges();
   }
 
-  async function handleDeleteDialog(id) {
+  async function handleDeleteDialog(projectId, id) {
     const refs = getAllRef(id, dialogs);
     let setting: any = {
       confirmBtnText: formatMessage('Yes'),
@@ -541,7 +544,7 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
     }
   }
 
-  async function handleDeleteTrigger(dialogId, index) {
+  async function handleDeleteTrigger(projectId, dialogId, index) {
     const content = deleteTrigger(dialogs, dialogId, index, (trigger) => triggerApi.deleteTrigger(dialogId, trigger));
 
     if (content) {
@@ -564,6 +567,16 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
       }
     }
   }
+
+  async function handleDelete(link: { projectId: string; dialogName?: string; trigger?: number }) {
+    const { projectId, dialogName, trigger } = link;
+    if (trigger == null) {
+      handleDeleteDialog(projectId, dialogName);
+    } else {
+      handleDeleteTrigger(projectId, dialogName, trigger);
+    }
+  }
+
   const addNewBtnRef = useCallback((addNew) => {
     onboardingAddCoachMarkRef({ addNew });
   }, []);
@@ -610,11 +623,12 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
       <div css={pageRoot}>
         <ProjectTree
           dialogId={dialogId}
-          dialogs={dialogs}
           selected={selected}
-          onDeleteDialog={handleDeleteDialog}
-          onDeleteTrigger={handleDeleteTrigger}
-          onSelect={(dialogId, selected) => handleSelect(projectId, dialogId, selected)}
+          onDelete={handleDelete}
+          onSelect={(link) => {
+            const { projectId, dialogName: dialogId, trigger: selected } = link;
+            handleSelect(projectId, dialogId, selected != null ? `triggers[${selected.toString()}]` : '');
+          }}
         />
         <div css={contentWrapper} role="main">
           <div css={{ position: 'relative' }} data-testid="DesignPage-ToolBar">

@@ -15,6 +15,8 @@ import { IButtonStyles } from 'office-ui-fabric-react/lib/Button';
 import { IContextualMenuStyles } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { ICalloutContentStyles } from 'office-ui-fabric-react/lib/Callout';
 
+import { TreeLink } from './ProjectTree';
+
 // -------------------- Styles -------------------- //
 const indent = 16;
 const itemText = (depth: number) => css`
@@ -133,12 +135,12 @@ const warningIcon = {
 // -------------------- TreeItem -------------------- //
 
 interface ITreeItemProps {
-  link: any;
+  link: TreeLink;
   isActive?: boolean;
   isSubItemActive?: boolean;
   depth: number | undefined;
-  onDelete: (id: string) => void;
-  onSelect: (id: string) => void;
+  onDelete?: (link: TreeLink) => void;
+  onSelect: (link: TreeLink) => void;
   icon?: string;
   dialogName?: string;
   showProps?: boolean;
@@ -184,9 +186,8 @@ const onRenderItem = (item: IOverflowSetItemProps) => {
   );
 };
 
-const onRenderOverflowButton = (isRoot: boolean, isActive: boolean) => {
+const onRenderOverflowButton = (showIcon: boolean, isActive: boolean) => {
   const moreLabel = formatMessage('Actions');
-  const showIcon = !isRoot;
   return (overflowItems) => {
     return showIcon ? (
       <TooltipHost content={moreLabel} directionalHint={DirectionalHint.rightCenter}>
@@ -215,21 +216,25 @@ export const TreeItem: React.FC<ITreeItemProps> = (props) => {
 
   const a11yLabel = `${dialogName ?? '$Root'}_${link.displayName}`;
 
-  const overflowMenu = [
-    {
+  const overflowMenu: { key: string; name: string; onClick: () => void }[] = [];
+
+  if (onDelete != null) {
+    overflowMenu.push({
       key: 'delete',
       name: formatMessage('Delete'),
-      onClick: () => onDelete(link.id),
-    },
-  ];
+      onClick: () => onDelete(link),
+    });
+  }
 
   if (props.showProps) {
     overflowMenu.push({
       key: 'props',
       name: formatMessage('Properties'),
-      onClick: () => onSelect(link.id),
+      onClick: () => onSelect(link),
     });
   }
+
+  const linkString = `${link.projectId}_DialogTreeItem${link.dialogName}_${link.trigger ?? ''}`;
 
   return (
     <div
@@ -239,11 +244,11 @@ export const TreeItem: React.FC<ITreeItemProps> = (props) => {
       role="gridcell"
       tabIndex={0}
       onClick={() => {
-        onSelect(link.id);
+        onSelect(link);
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          onSelect(link.id);
+          onSelect(link);
         }
       }}
     >
@@ -252,10 +257,10 @@ export const TreeItem: React.FC<ITreeItemProps> = (props) => {
         //remove this at that time
         doNotContainWithinFocusZone
         css={overflowSet(depth ?? 0)}
-        data-testid={`DialogTreeItem${link.id}`}
+        data-testid={linkString}
         items={[
           {
-            key: link.id,
+            key: linkString,
             depth,
             icon,
             ...link,
@@ -265,7 +270,7 @@ export const TreeItem: React.FC<ITreeItemProps> = (props) => {
         role="row"
         styles={{ item: { flex: 1 } }}
         onRenderItem={onRenderItem}
-        onRenderOverflowButton={onRenderOverflowButton(link.isRoot, !!isActive)}
+        onRenderOverflowButton={onRenderOverflowButton(!link.isRoot, !!isActive)}
       />
     </div>
   );
