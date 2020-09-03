@@ -18,7 +18,7 @@ import { ICalloutContentStyles } from 'office-ui-fabric-react/lib/Callout';
 import { TreeLink } from './ProjectTree';
 
 // -------------------- Styles -------------------- //
-const indent = 16;
+const indent = 8;
 const itemText = (depth: number) => css`
   outline: none;
   :focus {
@@ -46,9 +46,9 @@ const content = css`
   label: ProjectTreeItem;
 `;
 
-const leftIndent = css`
+const leftIndent = (extraSpace: number) => css`
   height: 100%;
-  width: ${indent}px;
+  width: ${extraSpace + 8}px;
 `;
 
 const moreMenu: Partial<ICalloutContentStyles> = {
@@ -144,9 +144,10 @@ interface ITreeItemProps {
   icon?: string;
   dialogName?: string;
   showProps?: boolean;
+  extraSpace?: number;
 }
 
-const onRenderItem = (item: IOverflowSetItemProps) => {
+const onRenderItem = (extraSpace: number) => (item: IOverflowSetItemProps) => {
   const warningContent = formatMessage(
     'This trigger type is not supported by the RegEx recognizer and will not be fired.'
   );
@@ -166,7 +167,7 @@ const onRenderItem = (item: IOverflowSetItemProps) => {
             <Icon iconName={'Warning'} style={warningIcon} />
           </TooltipHost>
         ) : (
-          <div css={leftIndent} />
+          <div css={leftIndent(extraSpace)} />
         )}
         {item.icon != null && (
           <Icon
@@ -269,7 +270,7 @@ export const TreeItem: React.FC<ITreeItemProps> = (props) => {
         overflowItems={overflowMenu}
         role="row"
         styles={{ item: { flex: 1 } }}
-        onRenderItem={onRenderItem}
+        onRenderItem={onRenderItem(props.extraSpace ?? 0)}
         onRenderOverflowButton={onRenderOverflowButton(!link.isRoot, !!isActive)}
       />
     </div>

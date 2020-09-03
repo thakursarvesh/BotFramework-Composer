@@ -97,11 +97,11 @@ const ProjectRouter: React.FC<RouteComponentProps<{ projectId: string }>> = (pro
   const botProjects = useRecoilValue(botProjectsState);
   const projectNames = useRecoilValue(botProjectSpaceLoadedSelector);
 
-  useEffect(() => {
-    if (botProjects[0] !== props.projectId && props.projectId) {
-      fetchProjectById(props.projectId);
-    }
-  }, [props.projectId]);
+  // useEffect(() => {
+  //   if (botProjects[0] !== props.projectId && props.projectId) {
+  //     fetchProjectById(props.projectId);
+  //   }
+  // }, [props.projectId]);
 
   useEffect(() => {
     const schemaError = schemas?.diagnostics ?? [];

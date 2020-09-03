@@ -170,6 +170,7 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
         key={`${item.id}_${item.index}`}
         depth={2}
         dialogName={dialog.displayName}
+        extraSpace={32}
         icon={TYPE_TO_ICON_MAP[item.type] || 'Flow'}
         isActive={dialog.id === props.dialogId && createSelectedPath(item.index) === selected}
         link={link}
