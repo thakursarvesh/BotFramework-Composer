@@ -337,11 +337,11 @@ export const projectDispatcher = () => {
     const promises = [rootBotPromise];
     for (const skill of botProjectFileContents.skills) {
       if (skill.workspace) {
-        const { protocol, origin } = new URL(skill.workspace);
+        const { protocol } = new URL(skill.workspace);
         if (protocol === 'file:') {
-          const relativeSkillPath = skill.workspace.replace(origin, '');
+          const relativeSkillPath = skill.workspace.replace('file://', '');
           const skillPath = path.resolve(rootBotPath, relativeSkillPath);
-          promises.push(httpClient.put(`/projects/open`, { path: skillPath, storageId }));
+          promises.push(httpClient.put(`/projects/open`, { path: skillPath.replace(/^\//, ''), storageId }));
         }
       } else {
         //Handle remote skill
