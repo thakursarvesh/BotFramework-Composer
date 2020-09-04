@@ -113,6 +113,7 @@ export class Builder {
         LUFolderPath,
         Path.resolve(this.generatedFolderPath, 'rootDialog.blu'),
         false
+        //set to true when training Orchestrator with Skill LU because we need one single intent for one skill
       );
     } catch (error) {
       throw new Error(error.message ?? error.text ?? 'Error publishing Orchestrator Snapshot.');
