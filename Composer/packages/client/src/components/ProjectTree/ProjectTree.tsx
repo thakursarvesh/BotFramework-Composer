@@ -190,23 +190,25 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
     updateUserSettings({ dialogNavWidth: currentWidth + d.width });
   };
 
-  function filterMatch(scope: string, target: string) {
-    return scope.toLowerCase().includes(target.toLowerCase());
+  function filterMatch(scope: string) {
+    return scope.toLowerCase().includes(filter.toLowerCase());
   }
 
-  function createDetailsTree(projectId: string, dialogs: DialogInfo[], filter: string) {
+  function createDetailsTree(bot: BotInProject) {
+    const { projectId } = bot;
+    const dialogs = sortDialog(bot.dialogs);
+
     const filteredDialogs =
       filter == null || filter.length === 0
         ? dialogs
         : dialogs.filter(
             (dialog) =>
-              filterMatch(dialog.displayName, filter) ||
-              dialog.triggers.some((trigger) => filterMatch(getTriggerName(trigger), filter))
+              filterMatch(dialog.displayName) || dialog.triggers.some((trigger) => filterMatch(getTriggerName(trigger)))
           );
 
     return filteredDialogs.map((dialog: DialogInfo) => {
       const triggerList = dialog.triggers
-        .filter((tr) => filterMatch(dialog.displayName, filter) || filterMatch(getTriggerName(tr), filter))
+        .filter((tr) => filterMatch(dialog.displayName) || filterMatch(getTriggerName(tr)))
         .map((tr, index) =>
           renderTrigger(
             projectId,
@@ -225,18 +227,17 @@ export const ProjectTree: React.FC<IProjectTreeProps> = (props) => {
     });
   }
 
-  const projectTree = projectCollection.map((bot) => {
-    const { dialogs } = bot;
-
-    const sortedDialogs = sortDialog(dialogs);
-
+  function createBotSubtree(bot: BotInProject) {
     return (
       <details key={bot.projectId}>
         <summary css={summaryStyle}>{renderBotHeader(bot, false)}</summary>
-        {createDetailsTree(bot.projectId, sortedDialogs, filter)}
+        {createDetailsTree(bot)}
       </details>
     );
-  });
+  }
+
+  const projectTree =
+    projectCollection.length === 1 ? createDetailsTree(projectCollection[0]) : projectCollection.map(createBotSubtree);
 
   return (
     <Fragment>

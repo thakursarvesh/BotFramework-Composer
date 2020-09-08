@@ -123,8 +123,9 @@ async function removeProject(req: Request, res: Response) {
 
 async function openProject(req: Request, res: Response) {
   if (!req.body.storageId || !req.body.path) {
+    console.error('request missing parameters: ', JSON.stringify(req.body));
     res.status(400).json({
-      message: 'parameters not provided, require stoarge id and path',
+      message: 'parameters not provided, require storage id and path',
     });
     return;
   }
