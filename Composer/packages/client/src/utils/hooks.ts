@@ -7,7 +7,7 @@ import replace from 'lodash/replace';
 import find from 'lodash/find';
 import { useRecoilValue } from 'recoil';
 
-import { botProjectsState, projectIdState, designPageLocationState, pluginsState } from '../recoilModel';
+import { botProjectsState, currentProjectIdState, designPageLocationState, pluginsState } from '../recoilModel';
 
 import {} from './../recoilModel';
 import { bottomLinks, topLinks } from './pageLinks';
@@ -28,7 +28,7 @@ export const useLinks = () => {
   const rootBotProjectId = botProjects[0];
   const designPageLocation = useRecoilValue(designPageLocationState(rootBotProjectId));
   const openedDialogId: string = designPageLocation.dialogId || 'Main';
-  const projectId: string = useRecoilValue(projectIdState);
+  const projectId: string = useRecoilValue(currentProjectIdState);
   const plugins = useRecoilValue(pluginsState);
 
   // add page-contributing plugins
