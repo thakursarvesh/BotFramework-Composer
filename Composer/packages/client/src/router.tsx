@@ -23,6 +23,7 @@ import { openAlertModal } from './components/Modal/AlertDialog';
 import { dialogStyle } from './components/Modal/dialogStyle';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { botProjectSpaceLoadedSelector } from './recoilModel/selectors';
+import { PluginPageContainer } from './pages/plugin/pluginPageContainer';
 
 const DesignPage = React.lazy(() => import('./pages/design/DesignPage'));
 const LUPage = React.lazy(() => import('./pages/language-understanding/LUPage'));
@@ -66,6 +67,7 @@ const Routes = (props) => {
           <SettingPage path="settings/*" />
           <BotCreationFlowRouter path="projects/*" />
           <BotCreationFlowRouter path="home" />
+          <PluginPageContainer path="page/:pluginId" />
           <NotFound default />
         </Router>
       </Suspense>
@@ -93,7 +95,7 @@ const projectStyle = css`
 const ProjectRouter: React.FC<RouteComponentProps<{ projectId: string }>> = (props) => {
   const { projectId = '' } = props;
   const schemas = useRecoilValue(schemasState(projectId));
-  const { fetchProjectById, setBotProjectSpaceLoaded } = useRecoilValue(dispatcherState);
+  const { /* fetchProjectById, */ setBotProjectSpaceLoaded } = useRecoilValue(dispatcherState);
   const botProjects = useRecoilValue(botProjectsState);
   const projectNames = useRecoilValue(botProjectSpaceLoadedSelector);
 
