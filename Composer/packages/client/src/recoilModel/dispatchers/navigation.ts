@@ -83,7 +83,6 @@ export const navigationDispatcher = () => {
       dialogId: string | undefined,
       selectPath: string | undefined
     ) => {
-      if (!selectPath) return;
       const designPageLocation = await snapshot.getPromise(designPageLocationState(projectId));
       // const breadcrumb = await snapshot.getPromise(breadcrumbState(projectId));
 

@@ -627,7 +627,7 @@ const DesignPage: React.FC<RouteComponentProps<{ dialogId: string; projectId: st
           onDelete={handleDelete}
           onSelect={(link) => {
             const { projectId, dialogName: dialogId, trigger: selected } = link;
-            handleSelect(projectId, dialogId, selected != null ? `triggers[${selected.toString()}]` : '');
+            handleSelect(projectId, dialogId, selected == null ? '' : `triggers[${selected.toString()}]`);
           }}
         />
         <div css={contentWrapper} role="main">

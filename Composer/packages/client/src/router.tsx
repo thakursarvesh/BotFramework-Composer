@@ -17,7 +17,7 @@ import {
   dispatcherState,
   schemasState,
   botProjectsState,
-  botProjectSpaceLoadedState,
+  // botProjectSpaceLoadedState,
 } from './recoilModel';
 import { openAlertModal } from './components/Modal/AlertDialog';
 import { dialogStyle } from './components/Modal/dialogStyle';
