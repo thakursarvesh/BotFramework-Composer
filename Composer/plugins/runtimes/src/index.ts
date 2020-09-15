@@ -120,7 +120,8 @@ export default async (composer: any): Promise<void> => {
         await copyDir(schemaSrcPath, localDisk, schemaDstPath, project.fileStorage, pathsToExclude);
         const schemaFolderInRuntime = path.join(destPath, 'azurewebapp/Schemas');
         await removeDirAndFiles(schemaFolderInRuntime);
-        return destPath;
+        console.log(path.relative(destPath, project.dir));
+        return path.relative(destPath, project.dir);;
       }
       throw new Error(`Runtime already exists at ${destPath}`);
     },
@@ -222,7 +223,8 @@ export default async (composer: any): Promise<void> => {
         if (initErr2) {
           throw new Error(initErr2);
         }
-        return destPath;
+        console.log(path.relative(destPath, project.dir));
+        return path.relative(destPath, project.dir);
       } else {
         throw new Error(`Runtime already exists at ${destPath}`);
       }
@@ -233,6 +235,6 @@ export default async (composer: any): Promise<void> => {
       srcManifestDir: string,
       srcStorage: IFileStorage,
       mode = 'azurewebapp'
-    ) => {},
+    ) => { },
   });
 };

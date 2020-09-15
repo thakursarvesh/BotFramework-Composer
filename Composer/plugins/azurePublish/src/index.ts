@@ -340,7 +340,8 @@ export default async (composer: any): Promise<void> => {
         project.settings.runtime.customRuntime === true &&
         project.settings.runtime.path
       ) {
-        runtimeCodePath = project.settings.runtime.path;
+
+        runtimeCodePath = path.isAbsolute(project.settings.runtime.path) ? project.settings.runtime.path : path.resolve(project.dir, project.settings.runtime.path);
       }
 
       // Prepare the temporary project

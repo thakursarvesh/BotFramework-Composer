@@ -305,7 +305,12 @@ class LocalPublisher {
   };
 
   private startBot = async (botId: string, port: number, settings: any, project: any): Promise<string> => {
-    const botDir = settings.runtime?.customRuntime === true ? settings.runtime.path : this.getBotRuntimeDir(botId);
+    let customerRuntimePath = settings.runtime.path;
+    if (customerRuntimePath && !path.isAbsolute(settings.runtime.path)) {
+      customerRuntimePath = path.resolve(project.dir, settings.runtime.path);
+    }
+    console.log(customerRuntimePath);
+    const botDir = settings.runtime?.customRuntime === true ? customerRuntimePath : this.getBotRuntimeDir(botId);
     const commandAndArgs =
       settings.runtime?.customRuntime === true
         ? settings.runtime.command.split(/\s+/)
