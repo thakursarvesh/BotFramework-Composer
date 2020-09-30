@@ -34,6 +34,7 @@ export class OAuthClient {
   public async login(): Promise<string> {
     // we need to perform a login request
     if (isElectron()) {
+      console.log('Electron -------------- ');
       return new Promise((resolve, reject) => {
         const { ipcRenderer } = window;
         ipcRenderer.on('oauth-login-complete', (_ev, idToken: string, id: number) => {
@@ -52,6 +53,8 @@ export class OAuthClient {
         ipcRenderer.send('oauth-start-login', this.config, this.id);
         // TODO: after some amount of time we should reject
       });
+    } else {
+      console.log('not Electron -------------');
     }
     return Promise.reject('OAuth flow is currently disabled in the Composer web environment.');
   }
