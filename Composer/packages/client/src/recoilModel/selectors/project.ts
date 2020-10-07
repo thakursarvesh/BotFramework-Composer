@@ -40,6 +40,7 @@ export const botProjectSpaceSelector = selector({
       const botNameId = get(botNameIdentifierState(projectId));
       return { dialogs, projectId, name, ...metaData, error: botError, botNameId };
     });
+    console.log('Bots', result);
     return result;
   },
 });
