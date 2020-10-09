@@ -43,10 +43,10 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
 
   const updateType = (_e, option?: IDropdownOption) => {
     const type = props.types.find((t) => t.name === option?.key);
-    const graph = 'https://graph.microsoft.com/User.Read';
+    const graph = 'https://graph.microsoft.com/Application.ReadWrite.All';
     const arm = 'https://management.azure.com/user_impersonation';
-    PluginAPI.auth.login({
-      clientId: '284e2bc8-b2ca-428a-bfc5-2f9c9718c170',
+    PluginAPI.auth.getAccessToken({
+      clientId: 'ce48853e-0605-4f77-8746-d70ac63cc6bc',
       scopes: [arm, graph],
     });
     if (type) {

@@ -57,11 +57,13 @@ function getLoginUrl(options: OAuthLoginOptions): string {
   ].join('&');
 
   const url = `${baseUrl}${implicitEndpoint}?${params}`;
+  console.log(`login url ----- ${url}`);
   return url;
 }
 
 export function getAccessTokenUrl(options: OAuthTokenOptions): string {
-  const { clientId, idToken, redirectUri, scopes = [] } = options;
+  const { clientId, idToken, redirectUri } = options;
+  const scopes = ['https://management.azure.com/user_impersonation'];
   const params = [
     `client_id=${encodeURIComponent(clientId)}`,
     `response_type=token`,
@@ -78,6 +80,8 @@ export function getAccessTokenUrl(options: OAuthTokenOptions): string {
   }
 
   const url = `${baseUrl}${implicitEndpoint}?${params.join('&')}`;
+  console.log(`access token url ----- ${url}`);
+
   return url;
 }
 

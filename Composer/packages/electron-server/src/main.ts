@@ -122,16 +122,20 @@ function initAuthListeners(window: Electron.BrowserWindow) {
   ipcMain.on('oauth-start-login', async (_ev, options: OAuthLoginOptions, id: number) => {
     try {
       const idToken = await loginAndGetIdToken(options);
+      log(`get id token ${idToken}`);
       window.webContents.send('oauth-login-complete', idToken, id);
     } catch (e) {
       window.webContents.send('oauth-login-error', e, id);
     }
   });
   ipcMain.on('oauth-get-access-token', async (_ev, options: OAuthLoginOptions, idToken: string, id: number) => {
+    log('get access token');
     try {
       const accessToken = await getAccessToken({ ...options, idToken });
+      log(`access token${accessToken}`);
       window.webContents.send('oauth-get-access-token-complete', accessToken, id);
     } catch (e) {
+      log(e);
       window.webContents.send('oauth-get-access-token-error', e, id);
     }
   });

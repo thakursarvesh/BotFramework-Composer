@@ -66,7 +66,8 @@ export class OAuthClient {
     if (isElectron()) {
       if (!this.tokens.idToken) {
         // login
-        await this.login();
+        console.log(this.id);
+        this.tokens.idToken = await this.login();
       }
 
       const { ipcRenderer } = window;
