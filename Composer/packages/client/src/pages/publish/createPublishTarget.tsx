@@ -78,8 +78,8 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
     return targetType ? props.types.find((t) => t.name === targetType)?.schema : undefined;
   }, [props.targets, targetType]);
 
-  const hasView = useMemo(() => {
-    return targetType ? props.types.find((t) => t.name === targetType)?.hasView : undefined;
+  const targetBundleId = useMemo(() => {
+    return targetType ? props.types.find((t) => t.name === targetType)?.bundleId : undefined;
   }, [props.targets, targetType]);
 
   const updateName = (e, newName) => {
@@ -90,7 +90,7 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
 
   const saveDisabled = useMemo(() => {
     const disabled = !targetType || !name || !!errorMessage;
-    if (hasView) {
+    if (targetBundleId) {
       // plugin config must also be valid
       return disabled || !pluginConfigIsValid;
     }
@@ -112,13 +112,14 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
   };
 
   const publishTargetContent = useMemo(() => {
-    if (hasView && targetType) {
+    if (targetBundleId && targetType) {
       // render custom plugin view
       return (
         <PluginHost
+          bundleId={targetBundleId}
           extraIframeStyles={[customPublishUISurface]}
           pluginName={targetType}
-          pluginType={'publish'}
+          pluginType="publish"
         ></PluginHost>
       );
     }
@@ -138,7 +139,7 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
         <button hidden disabled={saveDisabled} type="submit" />
       </Fragment>
     );
-  }, [targetType, instructions, schema, hasView, saveDisabled]);
+  }, [targetType, instructions, schema, targetBundleId, saveDisabled]);
 
   return (
     <Fragment>

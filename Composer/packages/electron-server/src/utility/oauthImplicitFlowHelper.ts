@@ -151,5 +151,6 @@ export async function loginAndGetIdToken(options: OAuthLoginOptions): Promise<st
 export async function getAccessToken(options: OAuthTokenOptions): Promise<string> {
   const tokenUrl = getAccessTokenUrl(options);
   const res = await createAccessTokenWindow(tokenUrl);
+  console.log(`token ------------ ${res}`);
   return res;
 }
