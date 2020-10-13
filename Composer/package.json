@@ -47,6 +47,7 @@
     "build:plugins:samples": "cd plugins/samples && yarn install && yarn build",
     "build:plugins:azurePublish": "cd plugins/azurePublish && yarn install && yarn build",
     "build:plugins:runtimes": "cd plugins/runtimes && yarn install && yarn build",
+    "build:plugins:pvaPublish": "cd plugins/pvaPublish && yarn && yarn build",
     "start": "cross-env NODE_ENV=production PORT=3000 yarn start:server",
     "startall": "yarn start",
     "start:dev": "concurrently  \"npm:start:client\" \"npm:start:server:dev\"",
