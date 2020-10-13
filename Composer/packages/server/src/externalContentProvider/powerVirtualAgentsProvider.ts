@@ -18,11 +18,29 @@ type PowerVirtualAgentsMetadata = ContentProviderMetadata & {
 };
 
 //const baseUrl = 'https://bots.int.customercareintelligence.net'; // int = test environment
-const baseUrl = 'https://bots.ppe.customercareintelligence.net'; // ppe
+// const baseUrl = 'https://bots.ppe.customercareintelligence.net'; // ppe
+//const baseUrl = 'https://powerva.microsoft.com'; // prod
 const authCredentials = {
   clientId: 'ce48853e-0605-4f77-8746-d70ac63cc6bc',
   scopes: ['a522f059-bb65-47c0-8934-7db6e5286414/.default'], // int / ppe
 };
+
+function getBaseUrl(): string {
+  const env = process.env.COMPOSER_PVA_ENV;
+  switch (env) {
+    case 'INT':
+      return 'https://bots.int.customercareintelligence.net';
+
+    case 'PPE':
+      return 'https://bots.ppe.customercareintelligence.net';
+
+    case 'PROD':
+      return 'https://powerva.microsoft.com';
+
+    default:
+      return 'https://bots.int.customercareintelligence.net';
+  }
+}
 
 export class PowerVirtualAgentsProvider extends ExternalContentProvider {
   private tempBotAssetsDir = join(process.env.COMPOSER_TEMP_DIR as string, 'pva-assets');
@@ -83,7 +101,10 @@ export class PowerVirtualAgentsProvider extends ExternalContentProvider {
 
   private getContentUrl(): string {
     const { envId, botId } = this.metadata;
-    return `${baseUrl}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
+    //return `${baseUrl}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
+    const url = getBaseUrl();
+    console.log('grabbing PVA bot content from: ', url);
+    return `${url}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
   }
 
   private async getRequestHeaders() {

@@ -17,12 +17,29 @@ import {
 
 const API_VERSION = '1';
 //const BASE_URL = `https://powerva.microsoft.com/api/botmanagement/v${API_VERSION}`; // prod / sdf
-//const BASE_URL = `https://bots.int.customercareintelligence.net/api/botmanagement/v${API_VERSION}`; // int / ppe
-const BASE_URL = `https://bots.ppe.customercareintelligence.net/api/botmanagement/v${API_VERSION}`;
+//const BASE_URL = `https://bots.ppe.customercareintelligence.net/api/botmanagement/v${API_VERSION}`; // int / ppe
+const BASE_URL = `https://bots.int.customercareintelligence.net/api/botmanagement/v${API_VERSION}`;
 const authCredentials = {
   clientId: 'ce48853e-0605-4f77-8746-d70ac63cc6bc',
   scopes: ['a522f059-bb65-47c0-8934-7db6e5286414/.default'], // int / ppe
 };
+
+function getBaseUrl(): string {
+  const env = process.env.COMPOSER_PVA_ENV;
+  switch (env) {
+    case 'INT':
+      return `https://bots.int.customercareintelligence.net/api/botmanagement/v${API_VERSION}`;
+
+    case 'PPE':
+      return `https://bots.ppe.customercareintelligence.net/api/botmanagement/v${API_VERSION}`;
+
+    case 'PROD':
+      return `https://powerva.microsoft.com/api/botmanagement/v${API_VERSION}`;
+
+    default:
+      return `https://bots.int.customercareintelligence.net/api/botmanagement/v${API_VERSION}`;
+  }
+}
 
 // in-memory history that allows us to get the status of the most recent job
 const publishHistory: PublishHistory = {};
@@ -86,7 +103,11 @@ export const publish = async (
     const length = zipReadStream.readableLength;
 
     // initiate the publish job
-    const url = `${BASE_URL}/environments/${envId}/bots/${botId}/composer/publishoperations?deleteMissingComponents=${deleteMissingComponents}&comment=${encodeURIComponent(
+    const base = getBaseUrl();
+    console.log('publishing bot content to ', base);
+    const url = `${
+      /*BASE_URL*/ base
+    }/environments/${envId}/bots/${botId}/composer/publishoperations?deleteMissingComponents=${deleteMissingComponents}&comment=${encodeURIComponent(
       comment
     )}`;
     const res = await fetch(url, {
@@ -161,7 +182,9 @@ export const getStatus = async (
     const accessToken = await getAccessToken(authCredentials);
 
     // check the status for the publish job
-    const url = `${BASE_URL}/environments/${envId}/bots/${botId}/composer/publishoperations/${operationId}`;
+    const base = getBaseUrl();
+    console.log('getting status from ', base);
+    const url = `${/*BASE_URL*/ base}/environments/${envId}/bots/${botId}/composer/publishoperations/${operationId}`;
     const res = await fetch(url, {
       method: 'GET',
       headers: {
@@ -216,7 +239,9 @@ export const history = async (
     const accessToken = await getAccessToken(authCredentials);
 
     // get the publish history for the bot
-    const url = `${BASE_URL}/environments/${envId}/bots/${botId}/composer/publishoperations`;
+    const base = getBaseUrl();
+    console.log('getting history from ', base);
+    const url = `${/*BASE_URL*/ base}/environments/${envId}/bots/${botId}/composer/publishoperations`;
     const res = await fetch(url, {
       method: 'GET',
       headers: {
