@@ -31,7 +31,7 @@ function generateState(clientId: string) {
 export interface OAuthLoginOptions {
   clientId: string;
   redirectUri: string;
-  scopes?: string[];
+  scopes: string[];
 }
 
 export interface OAuthTokenOptions extends OAuthLoginOptions {
@@ -62,8 +62,7 @@ function getLoginUrl(options: OAuthLoginOptions): string {
 }
 
 export function getAccessTokenUrl(options: OAuthTokenOptions): string {
-  const { clientId, idToken, redirectUri } = options;
-  const scopes = ['https://management.azure.com/user_impersonation'];
+  const { clientId, idToken, redirectUri, scopes } = options;
   const params = [
     `client_id=${encodeURIComponent(clientId)}`,
     `response_type=token`,

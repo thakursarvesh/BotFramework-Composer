@@ -47,7 +47,7 @@ const CreatePublishTarget: React.FC<CreatePublishTargetProps> = (props) => {
     const arm = 'https://management.azure.com/user_impersonation';
     PluginAPI.auth.getAccessToken({
       clientId: 'ce48853e-0605-4f77-8746-d70ac63cc6bc',
-      scopes: [arm, graph],
+      scopes: [arm],
     });
     if (type) {
       setTargetType(type.name);
