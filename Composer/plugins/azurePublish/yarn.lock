@@ -183,6 +183,11 @@
     nanoid "^3.1.3"
     nanoid-dictionary "^3.0.0"
 
+"@bfc/types@../../packages/types":
+  version "0.0.1"
+  dependencies:
+    json-schema "^0.2.5"
+
 "@microsoft/bf-cli-command@4.10.0-dev.20200721.8bb21ac":
   version "4.10.0-dev.20200721.8bb21ac"
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/@microsoft/bf-cli-command/-/@microsoft/bf-cli-command-4.10.0-dev.20200721.8bb21ac.tgz#9c81b37bc10072ca6beec7d7f68aa309f8a552ec"

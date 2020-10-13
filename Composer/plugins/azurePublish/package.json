@@ -21,6 +21,7 @@
     "@bfc/indexers": "../../packages/lib/indexers",
     "@bfc/extension": "../../packages/extension",
     "@bfc/shared": "../../packages/lib/shared",
+    "@bfc/types": "../../packages/types",
     "@microsoft/bf-lu": "^4.10.0-dev.20200728.930f45e",
     "@microsoft/bf-luis-cli": "^4.10.0-dev.20200721.8bb21ac",
     "@types/archiver": "3.1.0",

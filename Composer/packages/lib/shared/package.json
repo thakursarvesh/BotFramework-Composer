@@ -20,11 +20,11 @@
     "watch": "yarn build:ts --watch"
   },
   "peerDependencies": {
+    "@bfc/types": "*",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
   "devDependencies": {
-    "@bfc/types": "*",
     "@bfc/test-utils": "*",
     "@types/nanoid": "^2.1.0",
     "@types/react": "16.9.23",
