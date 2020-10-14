@@ -49,8 +49,8 @@ log(`${process.env.NODE_ENV} environment detected.`);
 function processArgsForWindows(args: string[]): string {
   //const envId = '40c6f77b-8fc6-4bbd-9bdc-2d4a941ef0b8'; // toanzian-test1
   //const botId = '8e2f2bff-7534-45b2-9343-2aa12e12af98'; // toanzian-test1
-  const envId = 'Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead';
-  const botId = '79dcdf32-a856-4d63-8633-6d02ff2f93d1';
+  const envId = '543e42fd-ed68-4ed3-b062-1c60b203bf1f';
+  const botId = '95811a0e-e69e-45c2-822e-4e4dd0032ffa';
   const tenantId = '91bee3d9-0c15-4f17-8624-c92bb8b36ead';
   const payload = {
     botId,
@@ -59,7 +59,7 @@ function processArgsForWindows(args: string[]): string {
     name: 'toanzian-monday-bot',
     tenantId, //: '72f988bf-86f1-41af-91ab-2d7cd011db47', // toanzian-test1
   };
-  args.push(`bfcomposer123://import?source=pva&payload=${encodeURIComponent(JSON.stringify(payload))}`);
+  args.push(`bfcomposer://import?source=pva&payload=${encodeURIComponent(JSON.stringify(payload))}`);
   const deepLinkUrl = args.find((arg) => arg.startsWith(composerProtocol));
   if (deepLinkUrl) {
     return parseDeepLinkUrl(deepLinkUrl);
