@@ -63,6 +63,8 @@ export class PowerVirtualAgentsProvider extends ExternalContentProvider {
       const contentType = result.headers.get('content-type');
       if (!contentType || contentType !== 'application/zip') {
         const json = await result.json();
+        console.error('ERROR: Did not receive zip back from PVA');
+        console.error(json);
         throw `Did not receive zip back from PVA: ${json}`;
       }
 
