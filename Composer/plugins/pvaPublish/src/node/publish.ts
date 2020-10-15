@@ -35,13 +35,13 @@ const getBaseUrl = () => {
 
     case 'ppe': {
       const url = `https://bots.ppe.customercareintelligence.net/v${API_VERSION}`;
-      console.log('prod detected, operation using PVA url: ', url);
+      console.log('ppe detected, operation using PVA url: ', url);
       return url;
     }
 
     case 'int': {
       const url = `https://bots.int.customercareintelligence.net/v${API_VERSION}`;
-      console.log('prod detected, operation using PVA url: ', url);
+      console.log('int detected, operation using PVA url: ', url);
       return url;
     }
 
