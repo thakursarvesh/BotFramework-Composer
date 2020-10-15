@@ -93,6 +93,10 @@ export class PowerVirtualAgentsProvider extends ExternalContentProvider {
 
   private async getAccessToken(): Promise<string> {
     try {
+      if (process.env.COMPOSER_PVA_TOKEN) {
+        console.log('Using env-set access token: ', process.env.COMPOSER_PVA_TOKEN);
+        return process.env.COMPOSER_PVA_TOKEN;
+      }
       // login to the 1P app and get an access token
       const accessToken = await authService.getAccessToken(authCredentials);
       return accessToken;

@@ -76,6 +76,7 @@ export class DefaultSettingManager extends FileSettingManager {
       skill: {},
       defaultLanguage: 'en-us',
       languages: ['en-us'],
+      luFeatures: {},
     };
   };
 

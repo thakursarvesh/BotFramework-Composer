@@ -65,7 +65,12 @@ export const publish = async (
 
   try {
     // authenticate with PVA
-    const accessToken = await getAccessToken(authCredentials);
+    let accessToken;
+    if (process.env.COMPOSER_PVA_TOKEN) {
+      accessToken = process.env.COMPOSER_PVA_TOKEN;
+    } else {
+      accessToken = await getAccessToken(authCredentials);
+    }
 
     // where we will store the bot .zip
     const zipDir = join(process.env.COMPOSER_TEMP_DIR as string, 'pva-publish');
@@ -179,7 +184,12 @@ export const getStatus = async (
 
   try {
     // authenticate with PVA
-    const accessToken = await getAccessToken(authCredentials);
+    let accessToken;
+    if (process.env.COMPOSER_PVA_TOKEN) {
+      accessToken = process.env.COMPOSER_PVA_TOKEN;
+    } else {
+      accessToken = await getAccessToken(authCredentials);
+    }
 
     // check the status for the publish job
     const base = getBaseUrl();
@@ -236,7 +246,12 @@ export const history = async (
 
   try {
     // authenticate with PVA
-    const accessToken = await getAccessToken(authCredentials);
+    let accessToken;
+    if (process.env.COMPOSER_PVA_TOKEN) {
+      accessToken = process.env.COMPOSER_PVA_TOKEN;
+    } else {
+      accessToken = await getAccessToken(authCredentials);
+    }
 
     // get the publish history for the bot
     const base = getBaseUrl();
@@ -250,7 +265,7 @@ export const history = async (
         'X-CCI-Routing-TenantId': tenantId,
       },
     });
-    const jobs: PVAPublishJob[] = await res.json();
+    const jobs: PVAPublishJob[] = (await res.json()) || [];
 
     // return the first 20
     return jobs.map((job) => xformJobToResult(job)).slice(19);
@@ -273,7 +288,12 @@ export const pull = async (
   } = config;
   try {
     // authenticate with PVA
-    const accessToken = await getAccessToken(authCredentials);
+    let accessToken;
+    if (process.env.COMPOSER_PVA_TOKEN) {
+      accessToken = process.env.COMPOSER_PVA_TOKEN;
+    } else {
+      accessToken = await getAccessToken(authCredentials);
+    }
     // fetch zip
     const url = `${BASE_URL}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
     const options: RequestInit = {
@@ -318,7 +338,7 @@ const xformJobToResult = (job: PVAPublishJob): PublishResult => {
     comment: job.comment,
     eTag: job.importedContentEtag,
     id: job.operationId, // what is this used for in Composer?
-    log: job.diagnostics.map((diag) => `---\n${JSON.stringify(diag, null, 2)}\n---\n`).join('\n'),
+    log: (job.diagnostics || []).map((diag) => `---\n${JSON.stringify(diag, null, 2)}\n---\n`).join('\n'),
     message: getUserFriendlyMessage(job.state),
     time: new Date(job.lastUpdateTimeUtc),
     status: getStatusFromJobState(job.state),
