@@ -18,11 +18,40 @@ type PowerVirtualAgentsMetadata = ContentProviderMetadata & {
   triggerId?: string;
 };
 
-const baseUrl = 'https://bots.int.customercareintelligence.net'; // int = test environment
+//const baseUrl = 'https://bots.int.customercareintelligence.net'; // int = test environment
 //const baseUrl = 'https://bots.ppe.customercareintelligence.net'; // ppe
 const authCredentials = {
-  clientId: COMPOSER_1P_APP_ID,
-  scopes: ['a522f059-bb65-47c0-8934-7db6e5286414/.default'], // int / ppe
+  clientId: process.env.PVA_CLIENT_ID || COMPOSER_1P_APP_ID,
+  scopes: process.env.PVA_SCOPES ? [process.env.PVA_SCOPES] : ['a522f059-bb65-47c0-8934-7db6e5286414/.default'], // int / ppe
+};
+
+const getBaseUrl = () => {
+  const pvaEnv = (process.env.COMPOSER_PVA_ENV || '').toLowerCase();
+  switch (pvaEnv) {
+    case 'prod': {
+      const url = 'https://powerva.microsoft.com';
+      console.log('prod detected, grabbing PVA content from: ', url);
+      return url;
+    }
+
+    case 'ppe': {
+      const url = 'https://bots.ppe.customercareintelligence.net';
+      console.log('prod detected, grabbing PVA content from: ', url);
+      return url;
+    }
+
+    case 'int': {
+      const url = 'https://bots.int.customercareintelligence.net';
+      console.log('prod detected, grabbing PVA content from: ', url);
+      return url;
+    }
+
+    default: {
+      const url = 'https://bots.int.customercareintelligence.net';
+      console.log('no flag detected, grabbing PVA content from: ', url);
+      return url;
+    }
+  }
 };
 
 function prettyPrintError(err: string | any): string {
@@ -95,12 +124,18 @@ export class PowerVirtualAgentsProvider extends ExternalContentProvider {
 
   private getContentUrl(): string {
     const { envId, botId } = this.metadata;
-    return `${baseUrl}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
+    return `${getBaseUrl()}/api/botmanagement/v1/environments/${envId}/bots/${botId}/composer/content`;
   }
 
   private async getRequestHeaders() {
     const { tenantId } = this.metadata;
-    const token = await this.getAccessToken();
+    let token;
+    if (process.env.COMPOSER_PVA_TOKEN) {
+      console.log('Supplied PVA token detected, using: ', process.env.COMPOSER_PVA_TOKEN);
+      token = process.env.COMPOSER_PVA_TOKEN;
+    } else {
+      token = await this.getAccessToken();
+    }
     return {
       Authorization: `Bearer ${token}`,
       'X-CCI-TenantId': tenantId,
